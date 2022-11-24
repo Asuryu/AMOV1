@@ -3,4 +3,11 @@
     <string name="app_name" translatable="false">9.5 a AM1</string>
     <string name="singleplayer">1 Jogador</string>
     <string name="multiplayer">Multijogador</string>
+    <string name="editar_perfil">Editar Perfil</string>
+    <string name="alterar_fotografia">Alterar fotografia</string>
+    <string name="jogador">Jogador</string>
+    <string name="salvar">Salvar</string>
+    <string name="edit_paragraph">Nesta página poderás editar as tuas informações de jogador</string>
+    <string name="points_placeholder">0pts</string>
+    <string name="nivel_placeholder">Nível 0</string>
 </resources>

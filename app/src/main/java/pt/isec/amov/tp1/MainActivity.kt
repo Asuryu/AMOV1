@@ -14,9 +14,36 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.spButton.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.editprofileBtn.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
+        }
+
+        if(loadImage(this, "avatar.jpg") != null){
+            binding.playerAvatar.setImageBitmap(loadImage(this, "avatar.jpg"))
+        }
+
+        if(getUsername(this) != null){
+            binding.playerName.text = getUsername(this)
+        } else {
+            binding.playerName.text = R.string.jogador.toString()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(loadImage(this, "avatar.jpg") != null) {
+            binding.playerAvatar.setImageBitmap(loadImage(this, "avatar.jpg"))
+        }
+        if(getUsername(this) != null){
+            binding.playerName.text = getUsername(this)
+        } else {
+            binding.playerName.text = R.string.jogador.toString()
         }
     }
 }

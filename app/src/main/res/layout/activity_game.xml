@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3C3F41"
+    android:padding="20dp"
     tools:context=".GameActivity">
 
     <TableLayout
@@ -23,7 +24,7 @@
                 android:id="@+id/button"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:text="1" />
+                android:text="Button" />
 
             <Button
                 android:id="@+id/button2"
@@ -136,51 +137,103 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_box"
+        android:backgroundTint="#373737"
         android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/player_avatar_ingame"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:layout_marginBottom="540dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_box"
+            android:backgroundTint="#FF9800"
+            android:clipToOutline="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.19"
+            app:shapeAppearanceOverlay="@style/roundimageview"
+            app:strokeColor="#FF9800"
+            app:strokeWidth="5dp"
+            tools:targetApi="s" />
+
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/player_name_ingame"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/adneue_bold"
             android:foregroundGravity="center_vertical|center_horizontal"
             android:gravity="start|center_vertical"
-            android:text="Jogador"
+            android:text="@string/jogador"
             android:textColor="#FFFFFF"
             android:textSize="25sp"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="7dp" />
+            tools:layout_conversion_absoluteHeight="171dp"
+            tools:layout_conversion_absoluteWidth="151dp" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/player_points"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="@font/adineue_regular"
-            android:gravity="center"
-            android:text="10pts"
-            android:textAlignment="textEnd"
+            android:gravity="center|end"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
+            android:text="@string/points_placeholder"
             android:textColor="#A5A5A5"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             tools:layout_editor_absoluteY="40dp" />
+
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@drawable/circle"
+        android:backgroundTint="#FF9800"
+        android:fontFamily="@font/adneue_bold"
+        android:gravity="center"
+        android:text="50"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/adneue_bold"
+        android:text="@string/nivel_placeholder"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="27sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

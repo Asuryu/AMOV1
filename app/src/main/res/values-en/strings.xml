@@ -2,4 +2,11 @@
 <resources>
     <string name="singleplayer">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>
+    <string name="editar_perfil">Edit Profile</string>
+    <string name="alterar_fotografia">Change profile picture</string>
+    <string name="jogador">Player</string>
+    <string name="salvar">Save</string>
+    <string name="edit_paragraph">Here you can edit your profile and choose a cool name and a profile picture</string>
+    <string name="points_placeholder">0pts</string>
+    <string name="nivel_placeholder">Level 0</string>
 </resources>
