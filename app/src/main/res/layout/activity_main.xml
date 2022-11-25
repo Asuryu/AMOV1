@@ -29,7 +29,7 @@
             android:layout_marginBottom="540dp"
             android:adjustViewBounds="true"
             android:background="@drawable/rounded_box"
-            android:backgroundTint="#FF9800"
+            android:backgroundTint="@android:color/transparent"
             android:clipToOutline="true"
             android:padding="10dp"
             android:scaleType="centerCrop"

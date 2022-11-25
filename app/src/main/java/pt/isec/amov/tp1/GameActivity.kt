@@ -17,7 +17,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
-            Log.i("Asuryu", "Fim do jogo")
+            Log.i("Asuryu", "Fim do jogo") // TODO
         }
     }
 
@@ -31,7 +31,7 @@ class GameActivity : AppCompatActivity() {
             binding.playerAvatarIngame.clipToOutline = true
             binding.playerAvatarIngame.isEnabled = true
         } else {
-            binding.playerAvatarIngame.setImageResource(R.drawable.ic_user_foreground)
+            binding.playerAvatarIngame.setImageDrawable(getDrawable(R.drawable.untitled_1))
         }
         if(getUsername(this) != null){
             binding.playerNameIngame.text = getUsername(this)

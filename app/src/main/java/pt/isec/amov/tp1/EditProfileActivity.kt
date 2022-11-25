@@ -37,6 +37,11 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if(loadImage(this, "avatar.jpg") != null) {
+            binding.playerAvatar2.setImageBitmap(loadImage(this, "avatar.jpg"))
+        }else{
+            binding.playerAvatar2.setImageDrawable(getDrawable(R.drawable.untitled_1))
+        }
         if(getUsername(this) != null){
             binding.usernameTextField.setText(getUsername(this))
         } else {

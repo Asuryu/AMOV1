@@ -2,6 +2,7 @@ package pt.isec.amov.tp1
 
 import android.content.Context
 import android.util.Log
+import androidx.core.content.res.ResourcesCompat
 
 fun saveUsername(context: Context, username: String) {
     val prefs = context.getSharedPreferences("pt.isec.amov.tp1", Context.MODE_PRIVATE)
@@ -10,5 +11,6 @@ fun saveUsername(context: Context, username: String) {
 
 fun getUsername(context: Context) : String? {
     val prefs = context.getSharedPreferences("pt.isec.amov.tp1", Context.MODE_PRIVATE)
-    return prefs.getString("username", null)
+
+    return prefs.getString("username", context.getString(R.string.jogador))
 }
