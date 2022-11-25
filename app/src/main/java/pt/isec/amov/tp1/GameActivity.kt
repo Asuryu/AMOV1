@@ -5,15 +5,46 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.widget.TextView
 import pt.isec.amov.tp1.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityGameBinding
 
-    private val timer = object: CountDownTimer(20000, 1000) {
+    companion object {
+        private const val TAG = "GameActivity"
+
+        private const val GAME_TIME = 60000L
+
+        private const val BOARD_SIZE = 25
+        private const val BOARD_NUMBERS = 9
+        private const val BOARD_SIGNS = 12
+
+        var boardNumbers : ArrayList<Int> = ArrayList()
+        var boardSigns : ArrayList<String> = ArrayList()
+        var level : Int = 1
+
+        fun generateBoard() {
+            boardNumbers.clear()
+            boardSigns.clear()
+            for (i in 0..8) {
+                boardNumbers.add((0..9).random())
+            }
+            for (i in 0..3) {
+                boardSigns.add(when ((0..3).random()) {
+                    0 -> "+"
+                    1 -> "-"
+                    2 -> "*"
+                    else -> "/"
+                })
+            }
+        }
+    }
+
+    private val timer = object: CountDownTimer(GAME_TIME, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            binding.timer.text = (millisUntilFinished / 1000).toString()
+            binding.timer?.text = (millisUntilFinished / 1000).toString()
         }
 
         override fun onFinish() {
@@ -39,7 +70,23 @@ class GameActivity : AppCompatActivity() {
             binding.playerNameIngame.text = R.string.jogador.toString()
         }
         timer.start()
+
+        var game = Game()
+        Log.i("Asuryu", game.board.toString())
+        for(i in 0..24){
+            val id = resources.getIdentifier("piece$i", "id", packageName)
+            val button = findViewById<TextView>(id)
+            button.text = game.board[i]
+        }
+
+        //TODO: fazer ecrã de créditos (clicar em cima do nome do jogo 3 vezes)
+        //TODO: fazer a página de fim de jogo (quando o tempo acaba - perder/ganhar vai para a mesmsa página)
+
     }
 
+    //binding.board.getChildAt(i).setOnClickListener {
+    //game.play(i)
+    //Log.i("Asuryu", game.board.toString())
+    //}
 
 }

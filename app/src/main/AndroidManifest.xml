@@ -16,6 +16,20 @@
         android:theme="@style/Theme.AMOV1"
         tools:targetApi="31">
         <activity
+            android:name=".GameEndActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".CreditsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".GameActivity"
             android:exported="false"
             android:parentActivityName=".MainActivity">
