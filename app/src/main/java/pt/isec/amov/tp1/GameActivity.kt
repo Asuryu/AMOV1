@@ -48,7 +48,7 @@ class GameActivity : AppCompatActivity() {
         }
 
         override fun onFinish() {
-            Log.i("Asuryu", "Fim do jogo") // TODO
+            Log.i("Asuryu", "Fim do jogo") // TODO: Quando o jogo acabar, levar para uma nova atividade de final de jogo
         }
     }
 
@@ -79,8 +79,7 @@ class GameActivity : AppCompatActivity() {
             button.text = game.board[i]
         }
 
-        //TODO: fazer ecrã de créditos (clicar em cima do nome do jogo 3 vezes)
-        //TODO: fazer a página de fim de jogo (quando o tempo acaba - perder/ganhar vai para a mesmsa página)
+        //TODO: fazer ecrã de créditos (clicar em cima da roda dentada 3 vezes)
 
     }
 
