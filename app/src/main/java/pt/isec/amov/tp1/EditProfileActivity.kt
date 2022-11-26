@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
     private var imagePath : String? = null
     private var imageBitmap : Bitmap? = null
+    var count : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,12 @@ class EditProfileActivity : AppCompatActivity() {
             binding.usernameTextField.setText(R.string.jogador.toString())
         }
 
+        binding.imageFilterButton2.setOnClickListener{
+            if(count < 3) count++
+            else {
+                Intent(this, CreditsActivity::class.java).also{ startActivity(it) }
+            }
+        }
         binding.changePicBtn.setOnClickListener{ chooseImage() }
         binding.saveBtn.isEnabled = false
         binding.saveBtn.setOnClickListener{

@@ -7,6 +7,10 @@
     <string name="jogador">Player</string>
     <string name="salvar">Save</string>
     <string name="edit_paragraph">Here you can edit your profile and choose a cool name and a profile picture</string>
-    <string name="points_placeholder">0pts</string>
-    <string name="nivel_placeholder">Level 0</string>
+    <string name="points_placeholder">%1$dpts</string>
+    <string name="nivel_placeholder">Level %1$d</string>
+    <string name="exit_dialog_title">Exit</string>
+    <string name="exit_dialog_message">Do you really want to exit the game?</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
 </resources>
