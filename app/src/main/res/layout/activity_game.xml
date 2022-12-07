@@ -261,7 +261,7 @@
         app:layout_constraintTop_toBottomOf="@+id/level">
 
         <TextView
-            android:id="@+id/piece0"
+            android:id="@+id/piece0_0"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece_tl"
@@ -275,7 +275,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/piece1"
+            android:id="@+id/piece0_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -289,7 +289,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/piece2"
+            android:id="@+id/piece0_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -303,7 +303,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/piece3"
+            android:id="@+id/piece0_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -317,7 +317,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/piece4"
+            android:id="@+id/piece0_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece_tr"
@@ -331,7 +331,7 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/piece5"
+            android:id="@+id/piece1_0"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -347,7 +347,7 @@
             app:layout_row="1" />
 
         <TextView
-            android:id="@+id/piece6"
+            android:id="@+id/piece1_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -363,7 +363,7 @@
             app:layout_row="1" />
 
         <TextView
-            android:id="@+id/piece7"
+            android:id="@+id/piece1_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -379,7 +379,7 @@
             app:layout_row="1" />
 
         <TextView
-            android:id="@+id/piece8"
+            android:id="@+id/piece1_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -395,7 +395,7 @@
             app:layout_row="1" />
 
         <TextView
-            android:id="@+id/piece9"
+            android:id="@+id/piece1_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -411,7 +411,7 @@
             app:layout_row="1" />
 
         <TextView
-            android:id="@+id/piece12"
+            android:id="@+id/piece2_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -427,7 +427,7 @@
             app:layout_row="2" />
 
         <TextView
-            android:id="@+id/piece14"
+            android:id="@+id/piece2_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -443,7 +443,7 @@
             app:layout_row="2" />
 
         <TextView
-            android:id="@+id/piece15"
+            android:id="@+id/piece3_0"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -459,7 +459,7 @@
             app:layout_row="3" />
 
         <TextView
-            android:id="@+id/piece16"
+            android:id="@+id/piece3_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -475,7 +475,7 @@
             app:layout_row="3" />
 
         <TextView
-            android:id="@+id/piece17"
+            android:id="@+id/piece3_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -491,7 +491,7 @@
             app:layout_row="3" />
 
         <TextView
-            android:id="@+id/piece19"
+            android:id="@+id/piece3_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -507,7 +507,7 @@
             app:layout_row="3" />
 
         <TextView
-            android:id="@+id/piece20"
+            android:id="@+id/piece4_0"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece_bl"
@@ -523,7 +523,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/piece21"
+            android:id="@+id/piece4_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -539,7 +539,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/piece22"
+            android:id="@+id/piece4_2"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -555,7 +555,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/textView28"
+            android:id="@+id/textView3_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -569,7 +569,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/piece23"
+            android:id="@+id/piece4_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -585,7 +585,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/piece24"
+            android:id="@+id/piece4_4"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece_br"
@@ -601,7 +601,7 @@
             app:layout_row="4" />
 
         <TextView
-            android:id="@+id/piece18"
+            android:id="@+id/piece3_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -617,7 +617,7 @@
             app:layout_row="3" />
 
         <TextView
-            android:id="@+id/piece13"
+            android:id="@+id/piece2_3"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -633,7 +633,7 @@
             app:layout_row="2" />
 
         <TextView
-            android:id="@+id/piece11"
+            android:id="@+id/piece2_1"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
@@ -649,7 +649,7 @@
             app:layout_row="2" />
 
         <TextView
-            android:id="@+id/piece10"
+            android:id="@+id/piece2_0"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@drawable/piece"
