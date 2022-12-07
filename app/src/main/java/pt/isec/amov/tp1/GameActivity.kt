@@ -1,5 +1,6 @@
 package pt.isec.amov.tp1
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -21,6 +22,7 @@ class GameActivity : AppCompatActivity(){
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
     var timeLeft : Int = 0
+    private lateinit var detector : GestureDetectorCompat
 
     var timer : CountDownTimer = object : CountDownTimer(60000, 1000) {
 
@@ -32,7 +34,7 @@ class GameActivity : AppCompatActivity(){
         override fun onFinish() {
             binding.timer.text = "0"
             timeLeft = 0
-            showEndGameScreen()
+            //showEndGameScreen()
         }
 
         fun stopTimer(){
@@ -45,6 +47,7 @@ class GameActivity : AppCompatActivity(){
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
@@ -79,7 +82,7 @@ class GameActivity : AppCompatActivity(){
                 override fun onFinish() {
                     binding.timer.text = "0"
                     timeLeft = 0
-                    showEndGameScreen()
+                    //showEndGameScreen()
                 }
 
                 fun stopTimer(){
@@ -104,77 +107,54 @@ class GameActivity : AppCompatActivity(){
             }
         }
 
-        // set the board
-        for(i in 0..24){
+        // gesture detector
+        detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                        } else {
+                            // swipe left
+                            Log.i(TAG, "swipe left")
+                            onSwipeLeft()
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                        } else {
+                            // swipe up
+                            Log.i(TAG, "swipe up")
+                            onSwipeTop()
+                        }
+                    }
+                }
+                return true
+            }
+        })
+        for(i in 0..24) {
             val id = resources.getIdentifier("piece$i", "id", packageName)
             val piece = findViewById<TextView>(id)
+            piece.setOnTouchListener { v, event ->
+                detector.onTouchEvent(event)
+                true
+            }
             piece.text = board[i]
         }
-
-        detector = GestureDetectorCompat(this,DiaryGestureListenner())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("game", game)
         outState.putInt("timeLeft", timeLeft)
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return if(detector.onTouchEvent(event!!)){
-            true
-        }else{
-            super.onTouchEvent(event)
-        }
-    }
-
-    inner class DiaryGestureListenner : GestureDetector.SimpleOnGestureListener(){
-
-        private val  SWIPE_THRESHOLD = 100
-        private val SWIPE_VELOCITY_THRESHOLD = 100
-
-        override fun onFling(
-            downEvent: MotionEvent,
-            moveEvent: MotionEvent,
-            velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            //exclamation to say we acknowledge that the down event will not be null
-            var diffX = moveEvent?.x?.minus(downEvent!!.x) ?:0.0F //this means that if this return null, just return this value(0.0) instead
-            var diffY = moveEvent?.y?.minus(downEvent!!.y) ?:0.0F //without a 'F' it assumes it's a double
-            //we need a float value to make the if else
-            return if (Math.abs(diffX) > Math.abs(diffY)) {
-                //this is a left or right swipe
-               if(Math.abs(diffX)>SWIPE_THRESHOLD && Math.abs(velocityX)>SWIPE_VELOCITY_THRESHOLD){
-                    if(diffX>0){
-                        //rigth swipe
-                        this@GameActivity.onSwipeRight()
-                    }else{
-                        //left swipe
-                        this@GameActivity.onSwipeLeft()
-                    }
-                    true
-                }else{
-                    super.onFling(downEvent, moveEvent, velocityX, velocityY)
-                }
-
-            }else{
-               //this is a top or buttom swipe
-               if(Math.abs(diffY)>SWIPE_THRESHOLD && Math.abs(velocityY)>SWIPE_VELOCITY_THRESHOLD){
-                    if(diffY>0){
-                        this@GameActivity.onSwipeTop()
-                    }
-                    else{
-                        this@GameActivity.onSwipeBottom()
-                    }
-                   true
-                }else{
-                    super.onFling(downEvent, moveEvent, velocityX, velocityY)
-                }
-
-            }
-
-        }
     }
 
     private fun onSwipeBottom() {
@@ -193,10 +173,6 @@ class GameActivity : AppCompatActivity(){
         Toast.makeText(this, "Right Swipe", Toast.LENGTH_LONG).show()
     }
 
-
-
-
-}
 
    /* override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
@@ -218,3 +194,4 @@ class GameActivity : AppCompatActivity(){
         finish()
     }*/
 
+}
