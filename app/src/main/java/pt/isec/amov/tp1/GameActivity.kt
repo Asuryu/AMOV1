@@ -34,7 +34,7 @@ class GameActivity : AppCompatActivity(){
         override fun onFinish() {
             binding.timer.text = "0"
             timeLeft = 0
-            //showEndGameScreen()
+            showEndGameScreen()
         }
 
         fun stopTimer(){
@@ -67,8 +67,6 @@ class GameActivity : AppCompatActivity(){
             binding.playerNameIngame.text = R.string.jogador.toString()
         }
 
-
-
         if(savedInstanceState != null){
             game = savedInstanceState.getSerializable("game") as Game
             timeLeft = savedInstanceState.getInt("timeLeft")
@@ -82,7 +80,7 @@ class GameActivity : AppCompatActivity(){
                 override fun onFinish() {
                     binding.timer.text = "0"
                     timeLeft = 0
-                    //showEndGameScreen()
+                    showEndGameScreen()
                 }
 
                 fun stopTimer(){
@@ -98,14 +96,6 @@ class GameActivity : AppCompatActivity(){
 
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
-
-        // linearize the board
-        var board : ArrayList<String> = ArrayList()
-        for(i in 0..4){
-            for(j in 0..4){
-                board.add(game.board[i][j])
-            }
-        }
 
         // gesture detector
         detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
@@ -140,14 +130,16 @@ class GameActivity : AppCompatActivity(){
                 return true
             }
         })
-        for(i in 0..24) {
-            val id = resources.getIdentifier("piece$i", "id", packageName)
-            val piece = findViewById<TextView>(id)
-            piece.setOnTouchListener { v, event ->
-                detector.onTouchEvent(event)
-                true
+        for(i in 0..4){
+            for(j in 0..4){
+                val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
+                val piece = findViewById<TextView>(id)
+                piece.setOnTouchListener { v, event ->
+                    detector.onTouchEvent(event)
+                    true
+                }
+                piece.text = game.board[i][j]
             }
-            piece.text = board[i]
         }
     }
 
@@ -174,7 +166,7 @@ class GameActivity : AppCompatActivity(){
     }
 
 
-   /* override fun onBackPressed() {
+    override fun onBackPressed() {
         var builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.exit_dialog_title))
         builder.setMessage(getString(R.string.exit_dialog_message))
@@ -192,6 +184,6 @@ class GameActivity : AppCompatActivity(){
     fun showEndGameScreen(){
         Intent(this, GameEndActivity::class.java).also { startActivity(it) }
         finish()
-    }*/
+    }
 
 }
