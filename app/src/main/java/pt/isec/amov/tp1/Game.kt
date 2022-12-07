@@ -96,6 +96,34 @@ class Game : java.io.Serializable{
                 expressions.put(expression, evaluateExpression(expression))
             }
         }
+
+        for(i in 4 downTo 0){
+            if(i % 2 == 0){
+                var expression = ""
+                for(j in 4 downTo 0){
+                    if(j % 2 == 0){
+                        expression += board[i][j]
+                    } else {
+                        expression += board[i][j]
+                    }
+                }
+                expressions.put(expression, evaluateExpression(expression))
+            }
+        }
+
+        for(i in 4 downTo 0){
+            if(i % 2 == 0){
+                var expression = ""
+                for(j in 4 downTo 0){
+                    if(j % 2 == 0){
+                        expression += board[j][i]
+                    } else {
+                        expression += board[j][i]
+                    }
+                }
+                expressions.put(expression, evaluateExpression(expression))
+            }
+        }
     }
 
     // function to evaluate an expression
