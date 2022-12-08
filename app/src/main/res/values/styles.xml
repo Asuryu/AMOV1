@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DefaultText">
+        <item name="android:fontFamily">@font/adneue_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="textMp">
+        <item name="android:fontFamily">@font/adneue_bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

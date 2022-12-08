@@ -45,6 +45,14 @@ class GameActivity : AppCompatActivity(){
         }
     }
 
+    private fun showEndGameScreen() {
+        val intent = Intent(this, GameEndActivity::class.java)
+        intent.putExtra("points", game.points)
+        intent.putExtra("level", game.level)
+        startActivity(intent)
+        finish()
+    }
+
     companion object {
         private const val TAG = "GameActivity"
     }
@@ -124,6 +132,8 @@ class GameActivity : AppCompatActivity(){
 
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
+        binding.level.text = getString(R.string.finalLevel, game.level)
+        binding.playerPoints.text = getString(R.string.finalPoints, game.points)
 
         // gesture detector TODO: fazer mais detetores
 

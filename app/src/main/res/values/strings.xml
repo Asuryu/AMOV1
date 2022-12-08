@@ -6,6 +6,8 @@
     <string name="editar_perfil">Editar Perfil</string>
     <string name="alterar_fotografia">Alterar fotografia</string>
     <string name="jogador">Jogador</string>
+    <string name="jogador1">Jogador 1</string>
+    <string name="jogador2">Jogador 2</string>
     <string name="salvar">Salvar</string>
     <string name="edit_paragraph">Nesta página poderás editar as tuas informações de jogador</string>
     <string name="points_placeholder">%1$d pts</string>
@@ -14,4 +16,15 @@
     <string name="exit_dialog_message">Queres mesmo sair do jogo?</string>
     <string name="sim">Sim</string>
     <string name="nao">Não</string>
+    <string name="you_won">Ganhou!</string>
+    <string name="game_over">Jogo terminado!</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="main_menu">Menu Principal</string>
+    <string name="you_lost">Perdeu!</string>
+    <string name="levelsSp">Nível alcançado:</string>
+    <string name="pointsSp">Pontos ganhos:</string>
+    <string name="levelsMp">Nível alcançado:</string>
+    <string name="pointsMp">Pontos ganhos:</string>
+    <string name="finalLevel">%1$d</string>
+    <string name="finalPoints">%1$d</string>
 </resources>
