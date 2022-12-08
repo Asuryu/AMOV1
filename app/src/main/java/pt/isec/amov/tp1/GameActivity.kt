@@ -135,9 +135,285 @@ class GameActivity : AppCompatActivity(){
         binding.level.text = getString(R.string.finalLevel, game.level)
         binding.playerPoints.text = getString(R.string.finalPoints, game.points)
 
-        // gesture detector TODO: fazer mais detetores
+        // gesture detector TODO: ASSOCIAR os detetores
 
-        lateinit var detectorRef : GestureDetectorCompat
+        lateinit var detectorRD : GestureDetectorCompat
+        lateinit var detectorLD : GestureDetectorCompat
+        lateinit var detectorL : GestureDetectorCompat
+        lateinit var detectorR : GestureDetectorCompat
+        lateinit var detectorRT : GestureDetectorCompat
+        lateinit var detectorLT : GestureDetectorCompat
+        lateinit var detectorD : GestureDetectorCompat
+        lateinit var detectorT : GestureDetectorCompat
+
+
+        detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                            last_move_id = 0
+                        }else{
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                            last_move_id = 2
+                        }else{super.onFling(e1, e2, velocityX, velocityY)}
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorLD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{
+                            Log.i(TAG, "swipe left")
+                            onSwipeLeft()
+                            last_move_id = 1
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                            last_move_id = 2
+                        }else{super.onFling(e1, e2, velocityX, velocityY)}
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorL = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{
+                            Log.i(TAG, "swipe right")
+                            onSwipeLeft()
+                            last_move_id = 0
+
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{super.onFling(e1, e2, velocityX, velocityY)}
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorR = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                            last_move_id = 0
+                        }else{
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{super.onFling(e1, e2, velocityX, velocityY)}
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorRT = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                            last_move_id = 0
+                        }else{
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{Log.i(TAG, "swipe top")
+                            onSwipeTop()
+                            last_move_id = 3}
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorLT = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{
+                            Log.i(TAG, "swipe left")
+                            onSwipeLeft()
+                            last_move_id = 2
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{Log.i(TAG, "swipe top")
+                            onSwipeTop()
+                            last_move_id = 3
+                            }
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorT = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{Log.i(TAG, "swipe top")
+                            onSwipeTop()
+                            last_move_id = 3
+                            }
+                    }
+                }
+                return true
+            }
+        })
+
+        detectorD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            // swipe right
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }else{
+                            super.onFling(e1, e2, velocityX, velocityY)
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                            last_move_id = 2
+                        }else{super.onFling(e1, e2, velocityX, velocityY)}
+                    }
+                }
+                return true
+            }
+        })
+
 
         for(i in 0..4){
             for(j in 0..4){
@@ -145,7 +421,12 @@ class GameActivity : AppCompatActivity(){
                 val piece = findViewById<TextView>(id)
 
                 detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-                    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                    override fun onFling(
+                        e1: MotionEvent,
+                        e2: MotionEvent,
+                        velocityX: Float,
+                        velocityY: Float
+                    ): Boolean {
                         val diffX = e2!!.x - e1!!.x
                         val diffY = e2.y - e1.y
                         if(Math.abs(diffX) > Math.abs(diffY)){
@@ -180,6 +461,8 @@ class GameActivity : AppCompatActivity(){
                         return true
                     }
                 })
+
+
 
                 if(i % 2 == 0 && j % 2 == 0){
                     piece.setOnTouchListener { v, event ->
@@ -269,9 +552,6 @@ class GameActivity : AppCompatActivity(){
         builder.show()
     }
 
-    fun showEndGameScreen(){
-        Intent(this, GameEndActivity::class.java).also { startActivity(it) }
-        finish()
-    }
+
 
 }
