@@ -26,11 +26,12 @@ class GameActivity : AppCompatActivity(){
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
     var timeLeft : Int = 0
+    var isMultiplayer : Boolean = true
     private lateinit var detector : GestureDetectorCompat
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
 
-    var timer : CountDownTimer = object : CountDownTimer(60000, 1000) {
+    var timer : CountDownTimer = object : CountDownTimer(10000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
             binding.timer.text = (millisUntilFinished / 1000).toString()
@@ -52,6 +53,7 @@ class GameActivity : AppCompatActivity(){
         val intent = Intent(this, GameEndActivity::class.java)
         intent.putExtra("points", game.points)
         intent.putExtra("level", game.level)
+        intent.putExtra("isMultiplayer", isMultiplayer)
         startActivity(intent)
         finish()
     }
@@ -232,10 +234,4 @@ class GameActivity : AppCompatActivity(){
         }
         builder.show()
     }
-
-    fun showEndGameScreen(){
-        Intent(this, GameEndActivity::class.java).also { startActivity(it) }
-        finish()
-    }
-
 }

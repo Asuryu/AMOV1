@@ -26,4 +26,5 @@
     <string name="pointsMp">Points won:</string>
     <string name="finalLevel">%1$d</string>
     <string name="finalPoints">%1$d</string>
+    <string name="pontuacao">Scoreboard</string>
 </resources>
