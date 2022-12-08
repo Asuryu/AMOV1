@@ -34,12 +34,20 @@ class GameActivity : AppCompatActivity(){
         override fun onFinish() {
             binding.timer.text = "0"
             timeLeft = 0
-            //showEndGameScreen()
+            showEndGameScreen()
         }
 
         fun stopTimer(){
             cancel()
         }
+    }
+
+    private fun showEndGameScreen() {
+        val intent = Intent(this, GameEndActivity::class.java)
+        intent.putExtra("points", game.points)
+        intent.putExtra("level", game.level)
+        startActivity(intent)
+        finish()
     }
 
     companion object {
@@ -98,6 +106,8 @@ class GameActivity : AppCompatActivity(){
 
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
+        binding.level.text = getString(R.string.finalLevel, game.level)
+        binding.playerPoints.text = getString(R.string.finalPoints, game.points)
 
         // linearize the board
         var board : ArrayList<String> = ArrayList()
