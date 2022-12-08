@@ -6,20 +6,17 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.children
 import androidx.gridlayout.widget.GridLayout
 import pt.isec.amov.tp1.databinding.ActivityGameBinding
-import java.lang.Math.abs
-import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity(){
 
@@ -74,12 +71,16 @@ class GameActivity : AppCompatActivity(){
         }
 
         if(savedInstanceState != null){
-            game = savedInstanceState.getSerializable("game") as Game
-            timeLeft = savedInstanceState.getInt("timeLeft")
+            var tmpGame : Game = savedInstanceState.getSerializable("game") as Game
+            Log.i("Asuryuu", "Construtor por cópia")
             selectedPieces = savedInstanceState.getSerializable("selectedPieces") as ArrayList<Int>
-            for(pieceId in selectedPieces){
-                binding.board.getChildAt(pieceId).alpha = 0.2f
+            for(i in selectedPieces){
+                binding.board.getChildAt(i).alpha = 0.2f
             }
+            game = Game(tmpGame, this, binding, selectedPieces)
+            timeLeft = savedInstanceState.getInt("timeLeft")
+            binding.timer.background.setTint(Color.parseColor(game.timerColor[game.level - 1]))
+
             timer = object : CountDownTimer((timeLeft * 1000).toLong(), 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
@@ -100,84 +101,119 @@ class GameActivity : AppCompatActivity(){
             timer.start()
 
         } else {
-            game = Game()
+            game = Game(this, binding)
+            timer = object : CountDownTimer(game.GAME_TIME, 1000) {
+
+                override fun onTick(millisUntilFinished: Long) {
+                    binding.timer.text = (millisUntilFinished / 1000).toString()
+                    timeLeft = ((millisUntilFinished / 1000).toInt())
+                }
+
+                override fun onFinish() {
+                    binding.timer.text = "0"
+                    timeLeft = 0
+                    showEndGameScreen()
+                }
+
+                fun stopTimer(){
+                    cancel()
+                }
+            }
             timer.start()
         }
 
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
 
-        // gesture detector
-        detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-            override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-                val diffX = e2!!.x - e1!!.x
-                val diffY = e2.y - e1.y
-                if(Math.abs(diffX) > Math.abs(diffY)){
-                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                        if(diffX > 0){
-                            // swipe right
-                            Log.i(TAG, "swipe right")
-                            onSwipeRight()
-                            last_move_id = 0
-                        } else {
-                            // swipe left
-                            Log.i(TAG, "swipe left")
-                            onSwipeLeft()
-                            last_move_id = 1
-                        }
-                    }
-                } else {
-                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                        if(diffY > 0){
-                            // swipe down
-                            Log.i(TAG, "swipe down")
-                            onSwipeBottom()
-                            last_move_id = 2
-                        } else {
-                            // swipe up
-                            Log.i(TAG, "swipe up")
-                            onSwipeTop()
-                            last_move_id = 3
-                        }
-                    }
-                }
-                return true
-            }
-        })
+        // gesture detector TODO: fazer mais detetores
+
+        lateinit var detectorRef : GestureDetectorCompat
 
         for(i in 0..4){
             for(j in 0..4){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
                 val piece = findViewById<TextView>(id)
-                piece.setOnTouchListener { v, event ->
-                    if (last_move_id != -1)
-                        return@setOnTouchListener true
 
-                    val boardId = resources.getIdentifier("board", "id", packageName)
-                    val board = findViewById<GridLayout>(boardId)
-                    if(detector.onTouchEvent(event)){
-                        Log.i("Asuryu", "fixe" + last_move_id)
-                        var step : Int = 0
-                        var cur_id : Int = 0
-                        when(last_move_id){
-                            0 -> { step = 1; cur_id = i * 5; }
-                            1 -> { step = -1; cur_id = i * 5; }
-                            2 -> { step = 5; cur_id = j; }
-                            3 -> { step = -5;  cur_id = j;}
+                detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+                    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+                        val diffX = e2!!.x - e1!!.x
+                        val diffY = e2.y - e1.y
+                        if(Math.abs(diffX) > Math.abs(diffY)){
+                            if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                                if(diffX > 0){
+                                    // swipe right
+                                    Log.i(TAG, "swipe right")
+                                    onSwipeRight()
+                                    last_move_id = 0
+                                } else {
+                                    // swipe left
+                                    Log.i(TAG, "swipe left")
+                                    onSwipeLeft()
+                                    last_move_id = 1
+                                }
+                            }
+                        } else {
+                            if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                                if(diffY > 0){
+                                    // swipe down
+                                    Log.i(TAG, "swipe down")
+                                    onSwipeBottom()
+                                    last_move_id = 2
+                                } else {
+                                    // swipe up
+                                    Log.i(TAG, "swipe up")
+                                    onSwipeTop()
+                                    last_move_id = 3
+                                }
+                            }
                         }
-
-                        for (k in 0..4)
-                        {
-                            Log.i("Asuryu", "Cur ID: " + cur_id)
-                            val cur_piece = board.getChildAt(cur_id)
-                            cur_piece?.alpha = 0.2f;
-                            selectedPieces.add(cur_id)
-                            cur_id += step
-                        }
+                        return true
                     }
+                })
 
-                    last_move_id = -1
-                    true
+                if(i % 2 == 0 && j % 2 == 0){
+                    piece.setOnTouchListener { v, event ->
+                        if (last_move_id != -1)
+                            return@setOnTouchListener true
+
+                        val boardId = resources.getIdentifier("board", "id", packageName)
+                        val board = findViewById<GridLayout>(boardId)
+
+                        if (detector.onTouchEvent(event)) {
+                            var step: Int = 0
+                            var cur_id: Int = 0
+                            when (last_move_id) {
+                                0 -> {
+                                    step = 1
+                                    cur_id = i * 5 + j
+                                }
+                                1 -> {
+                                    step = -1
+                                    cur_id = i * 5 + j
+                                }
+                                2 -> {
+                                    step = 5
+                                    cur_id = i * 5 + j
+                                }
+                                3 -> {
+                                    step = -5
+                                    cur_id = i * 5 + j
+                                }
+                            }
+
+                            var selectedExpression: String = ""
+                            for (k in 0..4) {
+                                val cur_piece = board.getChildAt(cur_id)
+                                cur_piece?.alpha = 0.2f;
+                                selectedExpression += (cur_piece as TextView).text
+                                selectedPieces.add(cur_id)
+                                cur_id += step
+                            }
+                            var ret = game.checkExpression(selectedExpression)
+                        }
+                        last_move_id = -1
+                        true
+                    }
                 }
                 piece.text = game.board[i][j]
             }
