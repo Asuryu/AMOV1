@@ -2,6 +2,7 @@ package pt.isec.amov.tp1
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -15,7 +16,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
+import androidx.gridlayout.widget.GridLayout
 import pt.isec.amov.tp1.databinding.ActivityGameBinding
+import java.lang.Math.abs
+import kotlin.properties.Delegates
 
 class GameActivity : AppCompatActivity(){
 
@@ -23,6 +27,7 @@ class GameActivity : AppCompatActivity(){
     lateinit var game : Game
     var timeLeft : Int = 0
     private lateinit var detector : GestureDetectorCompat
+    private var last_move_id : Int = -1
 
     var timer : CountDownTimer = object : CountDownTimer(60000, 1000) {
 
@@ -108,10 +113,12 @@ class GameActivity : AppCompatActivity(){
                             // swipe right
                             Log.i(TAG, "swipe right")
                             onSwipeRight()
+                            last_move_id = 0
                         } else {
                             // swipe left
                             Log.i(TAG, "swipe left")
                             onSwipeLeft()
+                            last_move_id = 1
                         }
                     }
                 } else {
@@ -120,10 +127,12 @@ class GameActivity : AppCompatActivity(){
                             // swipe down
                             Log.i(TAG, "swipe down")
                             onSwipeBottom()
+                            last_move_id = 2
                         } else {
                             // swipe up
                             Log.i(TAG, "swipe up")
                             onSwipeTop()
+                            last_move_id = 3
                         }
                     }
                 }
@@ -135,7 +144,32 @@ class GameActivity : AppCompatActivity(){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
                 val piece = findViewById<TextView>(id)
                 piece.setOnTouchListener { v, event ->
-                    detector.onTouchEvent(event)
+                    if (last_move_id != -1)
+                        return@setOnTouchListener true
+
+                    val boardId = resources.getIdentifier("board", "id", packageName)
+                    val board = findViewById<GridLayout>(boardId)
+                    if(detector.onTouchEvent(event)){
+                        Log.i("Asuryu", "fixe" + last_move_id)
+                        var step : Int = 0
+                        var cur_id : Int = 0
+                        when(last_move_id){
+                            0 -> { step = 1; cur_id = i * 5; }
+                            1 -> { step = -1; cur_id = i * 5; }
+                            2 -> { step = 5; cur_id = j; }
+                            3 -> { step = -5;  cur_id = j;}
+                        }
+
+                        for (k in 0..4)
+                        {
+                            Log.i("Asuryu", "Cur ID: " + cur_id)
+                            val cur_piece = board.getChildAt(cur_id)
+                            cur_piece?.background?.alpha = 128;
+                            cur_id += step
+                        }
+                    }
+
+                    last_move_id = -1
                     true
                 }
                 piece.text = game.board[i][j]
