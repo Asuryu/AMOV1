@@ -28,6 +28,7 @@ class GameActivity : AppCompatActivity(){
     var timeLeft : Int = 0
     private lateinit var detector : GestureDetectorCompat
     private var last_move_id : Int = -1
+    var selectedPieces : ArrayList<Int> = ArrayList()
 
     var timer : CountDownTimer = object : CountDownTimer(60000, 1000) {
 
@@ -75,6 +76,10 @@ class GameActivity : AppCompatActivity(){
         if(savedInstanceState != null){
             game = savedInstanceState.getSerializable("game") as Game
             timeLeft = savedInstanceState.getInt("timeLeft")
+            selectedPieces = savedInstanceState.getSerializable("selectedPieces") as ArrayList<Int>
+            for(pieceId in selectedPieces){
+                binding.board.getChildAt(pieceId).alpha = 0.2f
+            }
             timer = object : CountDownTimer((timeLeft * 1000).toLong(), 1000) {
 
                 override fun onTick(millisUntilFinished: Long) {
@@ -139,6 +144,7 @@ class GameActivity : AppCompatActivity(){
                 return true
             }
         })
+
         for(i in 0..4){
             for(j in 0..4){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
@@ -164,7 +170,8 @@ class GameActivity : AppCompatActivity(){
                         {
                             Log.i("Asuryu", "Cur ID: " + cur_id)
                             val cur_piece = board.getChildAt(cur_id)
-                            cur_piece?.background?.alpha = 128;
+                            cur_piece?.alpha = 0.2f;
+                            selectedPieces.add(cur_id)
                             cur_id += step
                         }
                     }
@@ -181,6 +188,7 @@ class GameActivity : AppCompatActivity(){
         super.onSaveInstanceState(outState)
         outState.putSerializable("game", game)
         outState.putInt("timeLeft", timeLeft)
+        outState.putSerializable("selectedPieces", selectedPieces)
     }
 
     private fun onSwipeBottom() {
