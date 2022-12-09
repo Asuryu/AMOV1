@@ -151,41 +151,7 @@ class GameActivity : AppCompatActivity(){
         lateinit var detectorT : GestureDetectorCompat
 
 
-        detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                val diffX = e2!!.x - e1!!.x
-                val diffY = e2.y - e1.y
-                if(Math.abs(diffX) > Math.abs(diffY)){
-                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                        if(diffX > 0){
-                            // swipe right
-                            Log.i(TAG, "swipe right")
-                            onSwipeRight()
-                            last_move_id = 0
-                            return true
-                        }else{
-                            super.onFling(e1, e2, velocityX, velocityY)
-                        }
-                    }
-                } else {
-                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                        if(diffY > 0){
-                            // swipe down
-                            Log.i(TAG, "swipe down")
-                            onSwipeBottom()
-                            last_move_id = 2
-                            return true
-                        }else{super.onFling(e1, e2, velocityX, velocityY)}
-                    }
-                }
-                return false
-            }
-        })
+
 
         detectorLD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
             override fun onFling(
@@ -429,12 +395,45 @@ class GameActivity : AppCompatActivity(){
             }
         })
 
-
         for(i in 0..4){
             for(j in 0..4){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
                 val piece = findViewById<TextView>(id)
-
+                detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+                    override fun onFling(
+                        e1: MotionEvent,
+                        e2: MotionEvent,
+                        velocityX: Float,
+                        velocityY: Float
+                    ): Boolean {
+                        val diffX = e2!!.x - e1!!.x
+                        val diffY = e2.y - e1.y
+                        if(Math.abs(diffX) > Math.abs(diffY)){
+                            if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                                if(diffX > 0){
+                                    // swipe right
+                                    Log.i(TAG, "swipe right")
+                                    onSwipeRight()
+                                    last_move_id = 0
+                                    return true
+                                }else{
+                                    super.onFling(e1, e2, velocityX, velocityY)
+                                }
+                            }
+                        } else {
+                            if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                                if(diffY > 0){
+                                    // swipe down
+                                    Log.i(TAG, "swipe down")
+                                    onSwipeBottom()
+                                    last_move_id = 2
+                                    return true
+                                }else{super.onFling(e1, e2, velocityX, velocityY)}
+                            }
+                        }
+                        return false
+                    }
+                })
                 detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
                     override fun onFling(
                         e1: MotionEvent,
@@ -480,8 +479,39 @@ class GameActivity : AppCompatActivity(){
                 lateinit var _detector : GestureDetectorCompat
                 var flag = false
 
-                if(i == 0 && j == 0){
+                if(i == 0 && j  == 0) {
                     _detector = detectorRD
+                    piece.setOnTouchListener { v, event ->
+                        if (last_move_id != -1)
+                            return@setOnTouchListener true
+                        val boardId = resources.getIdentifier("board", "id", packageName)
+                        val board = findViewById<GridLayout>(boardId)
+                        if (_detector.onTouchEvent(event)) {
+                            var step: Int = 0
+                            var cur_id: Int = 0
+                            Log.i(TAG, "last_move_id = $last_move_id")
+                            when (last_move_id) {
+                                0 -> {
+                                    step = 1
+                                    cur_id = i +5
+                                }
+                                1->{
+                                    super.onTouchEvent(event)
+                                }
+                                2 -> {
+                                    step = 5
+                                    cur_id = 5 + j
+                                }
+                                3->{
+                                    super.onTouchEvent(event)
+                                }
+                            }
+                            var selectedExpression: String = ""
+                            Log.i("Asuryuuu", selectedExpression)
+                            }
+                        last_move_id = -1
+                        true
+                }
                 }else if(i == 0 && j == 4){
                     _detector = detectorLD
                 }else if(i == 4 && j == 0){
@@ -498,45 +528,6 @@ class GameActivity : AppCompatActivity(){
                     _detector = detectorT
                 } else flag = true
 
-                if(i == 0 && j  == 0) {
-                    piece.setOnTouchListener { v, event ->
-                        if (last_move_id != -1)
-                            return@setOnTouchListener true
-
-                        val boardId = resources.getIdentifier("board", "id", packageName)
-                        val board = findViewById<GridLayout>(boardId)
-
-                        if (detectorRD.onTouchEvent(event)) {
-                            var step: Int = 0
-                            var cur_id: Int = 0
-                            when (last_move_id) {
-                                0 -> {
-                                    step = 1
-                                    cur_id = i * 5 + j
-                                }
-
-                                2 -> {
-                                    step = 5
-                                    cur_id = i * 5 + j
-                                }
-
-                            }
-
-                            var selectedExpression: String = ""
-                            for (k in 0..4) {
-                                val cur_piece = board.getChildAt(cur_id)
-                                cur_piece?.alpha = 0.2f;
-                                selectedExpression += (cur_piece as TextView).text
-                                selectedPieces.add(cur_id)
-                                cur_id += step
-                            }
-                            var ret = game.checkExpression(selectedExpression)
-                        }
-                        last_move_id = -1
-                        true
-                }
-                }
-
                 if(i % 2 == 0 && j % 2 == 0){
                     piece.setOnTouchListener { v, event ->
                         if (last_move_id != -1)
@@ -547,7 +538,7 @@ class GameActivity : AppCompatActivity(){
 
                         if(flag) return@setOnTouchListener false
 
-                        if (_detector.onTouchEvent(event)) {
+                        if (detector.onTouchEvent(event)) {
                             var step: Int = 0
                             var cur_id: Int = 0
                             when (last_move_id) {
