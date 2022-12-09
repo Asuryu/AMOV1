@@ -294,11 +294,6 @@ class Game : java.io.Serializable{
             correctAnswers++
             checkLevel()
 
-
-            for(element in context.addedPieces){
-                 element.alpha = 0.5f
-            }
-
             return true
         } else {
 
