@@ -1,5 +1,6 @@
 package pt.isec.amov.tp1
 
+import android.os.CountDownTimer
 import android.util.Log
 import android.widget.TextView
 import androidx.core.view.children
@@ -25,7 +26,10 @@ class Game : java.io.Serializable{
     var operators : ArrayList<String> = ArrayList( listOf("+") )
     var correctAnswersNeeded : Int = 1
     var correctAnswers : Int = 0
+
     var timerColor : ArrayList<String> = ArrayList( listOf("#ff931c", "#03befc", "#926ad4", "#8c3f75", "#3f8c70") )
+    lateinit var timer : CountDownTimer
+    var timeLeft : Long = GAME_TIME
 
     var randomGenerator = Random(System.currentTimeMillis())
 
@@ -37,6 +41,8 @@ class Game : java.io.Serializable{
         this.context = context
         nextLevel(false)
         generateBoard()
+        timer = getTimerObject(GAME_TIME)
+        timer.start()
     }
 
     // generate copy constructor
@@ -50,11 +56,30 @@ class Game : java.io.Serializable{
         this.operators = game.operators
         this.correctAnswersNeeded = game.correctAnswersNeeded
         this.correctAnswers = game.correctAnswers
+        this.timer = game.timer
+        this.timeLeft = game.timeLeft
         this.timerColor = game.timerColor
         this.randomGenerator = game.randomGenerator
         this.binding = binding
         this.context = context
 
+        timer = getTimerObject(timeLeft)
+        timer.start()
+    }
+
+    fun getTimerObject (time: Long) : CountDownTimer {
+        return object : CountDownTimer(time, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                binding.timer.text = (millisUntilFinished / 1000).toString()
+                timeLeft = millisUntilFinished
+            }
+
+            override fun onFinish() {
+                binding.timer.text = "0"
+                timeLeft = 0
+                context.showEndGameScreen()
+            }
+        }
     }
 
     fun nextLevel(generateBoard : Boolean = true) {
