@@ -48,7 +48,7 @@ class GameActivity : AppCompatActivity(){
         }
     }
 
-    private fun showEndGameScreen() {
+    public fun showEndGameScreen() {
         val intent = Intent(this, GameEndActivity::class.java)
         intent.putExtra("points", game.points)
         intent.putExtra("level", game.level)
@@ -90,49 +90,10 @@ class GameActivity : AppCompatActivity(){
                 binding.board.getChildAt(i).alpha = 0.2f
             }
             game = Game(tmpGame, this, binding, selectedPieces)
-            timeLeft = savedInstanceState.getInt("timeLeft")
             binding.timer.background.setTint(Color.parseColor(game.timerColor[game.level - 1]))
-
-            timer = object : CountDownTimer((timeLeft * 1000).toLong(), 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    binding.timer.text = (millisUntilFinished / 1000).toString()
-                    timeLeft = ((millisUntilFinished / 1000).toInt())
-                }
-
-                override fun onFinish() {
-                    binding.timer.text = "0"
-                    timeLeft = 0
-                    showEndGameScreen()
-                }
-
-                fun stopTimer(){
-                    cancel()
-                }
-            }
-            timer.start()
-
         }
         else {
             game = Game(this, binding)
-            timer = object : CountDownTimer(game.GAME_TIME, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    binding.timer.text = (millisUntilFinished / 1000).toString()
-                    timeLeft = ((millisUntilFinished / 1000).toInt())
-                }
-
-                override fun onFinish() {
-                    binding.timer.text = "0"
-                    timeLeft = 0
-                    showEndGameScreen()
-                }
-
-                fun stopTimer(){
-                    cancel()
-                }
-            }
-            timer.start()
         }
 
         // set string with level
@@ -435,48 +396,6 @@ class GameActivity : AppCompatActivity(){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
                 val piece = findViewById<TextView>(id)
 
-                detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-                    override fun onFling(
-                        e1: MotionEvent,
-                        e2: MotionEvent,
-                        velocityX: Float,
-                        velocityY: Float
-                    ): Boolean {
-                        val diffX = e2!!.x - e1!!.x
-                        val diffY = e2.y - e1.y
-                        if(Math.abs(diffX) > Math.abs(diffY)){
-                            if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                                if(diffX > 0){
-                                    // swipe right
-                                    Log.i(TAG, "swipe right")
-                                    onSwipeRight()
-                                    last_move_id = 0
-                                } else {
-                                    // swipe left
-                                    Log.i(TAG, "swipe left")
-                                    onSwipeLeft()
-                                    last_move_id = 1
-                                }
-                            }
-                        } else {
-                            if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                                if(diffY > 0){
-                                    // swipe down
-                                    Log.i(TAG, "swipe down")
-                                    onSwipeBottom()
-                                    last_move_id = 2
-                                } else {
-                                    // swipe up
-                                    Log.i(TAG, "swipe up")
-                                    onSwipeTop()
-                                    last_move_id = 3
-                                }
-                            }
-                        }
-                        return true
-                    }
-                })
-
                 lateinit var _detector : GestureDetectorCompat
                 var flag = false
 
@@ -497,45 +416,6 @@ class GameActivity : AppCompatActivity(){
                 }else if(i == 4 && j == 2){
                     _detector = detectorT
                 } else flag = true
-
-                if(i == 0 && j  == 0) {
-                    piece.setOnTouchListener { v, event ->
-                        if (last_move_id != -1)
-                            return@setOnTouchListener true
-
-                        val boardId = resources.getIdentifier("board", "id", packageName)
-                        val board = findViewById<GridLayout>(boardId)
-
-                        if (detectorRD.onTouchEvent(event)) {
-                            var step: Int = 0
-                            var cur_id: Int = 0
-                            when (last_move_id) {
-                                0 -> {
-                                    step = 1
-                                    cur_id = i * 5 + j
-                                }
-
-                                2 -> {
-                                    step = 5
-                                    cur_id = i * 5 + j
-                                }
-
-                            }
-
-                            var selectedExpression: String = ""
-                            for (k in 0..4) {
-                                val cur_piece = board.getChildAt(cur_id)
-                                cur_piece?.alpha = 0.2f;
-                                selectedExpression += (cur_piece as TextView).text
-                                selectedPieces.add(cur_id)
-                                cur_id += step
-                            }
-                            var ret = game.checkExpression(selectedExpression)
-                        }
-                        last_move_id = -1
-                        true
-                }
-                }
 
                 if(i % 2 == 0 && j % 2 == 0){
                     piece.setOnTouchListener { v, event ->
@@ -595,7 +475,6 @@ class GameActivity : AppCompatActivity(){
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("game", game)
-        outState.putInt("timeLeft", timeLeft)
         outState.putSerializable("selectedPieces", selectedPieces)
     }
 
