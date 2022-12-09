@@ -13,19 +13,6 @@
         android:padding="8dp"
         android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/adneue_bold"
-            android:text="Créditos"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageFilterButton" />
-
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imageFilterButton"
             android:layout_width="40dp"
@@ -42,6 +29,19 @@
             app:srcCompat="?android:attr/fingerprintAuthDrawable"
             tools:ignore="SpeakableTextPresentCheck"
             tools:targetApi="m" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="Créditos"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageFilterButton" />
 
         <TextView
             android:id="@+id/creditos_subtitle"
