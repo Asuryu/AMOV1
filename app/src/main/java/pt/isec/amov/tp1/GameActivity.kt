@@ -28,7 +28,7 @@ class GameActivity : AppCompatActivity(){
     private lateinit var detector : GestureDetectorCompat
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
-    var addedPieces: ArrayList<TextView> = ArrayList()
+    var addedPiecesRound: ArrayList<TextView> = ArrayList()
 
     var timer : CountDownTimer = object : CountDownTimer(10000, 1000) {
 
@@ -138,8 +138,6 @@ class GameActivity : AppCompatActivity(){
         // set string with level
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
-        binding.level.text = getString(R.string.finalLevel, game.level)
-        binding.playerPoints.text = getString(R.string.finalPoints, game.points)
 
         // gesture detector TODO: ASSOCIAR os detetores
 
@@ -169,6 +167,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe right")
                             onSwipeRight()
                             last_move_id = 0
+                            return true
                         }else{
                             super.onFling(e1, e2, velocityX, velocityY)
                         }
@@ -180,10 +179,11 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe down")
                             onSwipeBottom()
                             last_move_id = 2
+                            return true
                         }else{super.onFling(e1, e2, velocityX, velocityY)}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -205,6 +205,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe left")
                             onSwipeLeft()
                             last_move_id = 1
+                            return true
                         }
                     }
                 } else {
@@ -214,10 +215,11 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe down")
                             onSwipeBottom()
                             last_move_id = 2
+                            return true
                         }else{super.onFling(e1, e2, velocityX, velocityY)}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -239,7 +241,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe right")
                             onSwipeLeft()
                             last_move_id = 0
-
+                            return true
                         }
                     }
                 } else {
@@ -250,7 +252,7 @@ class GameActivity : AppCompatActivity(){
                         }else{super.onFling(e1, e2, velocityX, velocityY)}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -270,6 +272,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe right")
                             onSwipeRight()
                             last_move_id = 0
+                            return true
                         }else{
                             super.onFling(e1, e2, velocityX, velocityY)
                         }
@@ -282,7 +285,7 @@ class GameActivity : AppCompatActivity(){
                         }else{super.onFling(e1, e2, velocityX, velocityY)}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -302,6 +305,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe right")
                             onSwipeRight()
                             last_move_id = 0
+                            return true
                         }else{
                             super.onFling(e1, e2, velocityX, velocityY)
                         }
@@ -313,10 +317,11 @@ class GameActivity : AppCompatActivity(){
                             super.onFling(e1, e2, velocityX, velocityY)
                         }else{Log.i(TAG, "swipe top")
                             onSwipeTop()
-                            last_move_id = 3}
+                            last_move_id = 3
+                            return true}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -339,6 +344,7 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe left")
                             onSwipeLeft()
                             last_move_id = 2
+                            return true
                         }
                     }
                 } else {
@@ -349,10 +355,11 @@ class GameActivity : AppCompatActivity(){
                         }else{Log.i(TAG, "swipe top")
                             onSwipeTop()
                             last_move_id = 3
+                            return true
                             }
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -381,10 +388,11 @@ class GameActivity : AppCompatActivity(){
                         }else{Log.i(TAG, "swipe top")
                             onSwipeTop()
                             last_move_id = 3
+                            return true
                             }
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -413,10 +421,11 @@ class GameActivity : AppCompatActivity(){
                             Log.i(TAG, "swipe down")
                             onSwipeBottom()
                             last_move_id = 2
+                            return true
                         }else{super.onFling(e1, e2, velocityX, velocityY)}
                     }
                 }
-                return true
+                return false
             }
         })
 
@@ -472,21 +481,21 @@ class GameActivity : AppCompatActivity(){
                 var flag = false
 
                 if(i == 0 && j == 0){
-                    _detector = detectorLT
-                }else if(i == 0 && j == 4){
-                    _detector = detectorRT
-                }else if(i == 4 && j == 0){
-                    _detector = detectorLD
-                }else if(i == 4 && j == 4){
                     _detector = detectorRD
-                }else if(i == 0){
-                    _detector = detectorT
-                }else if(i == 4){
+                }else if(i == 0 && j == 4){
+                    _detector = detectorLD
+                }else if(i == 4 && j == 0){
+                    _detector = detectorRT
+                }else if(i == 4 && j == 4){
+                    _detector = detectorLT
+                }else if(i == 0 && j == 2){
                     _detector = detectorD
-                }else if(j == 0){
-                    _detector = detectorL
-                }else if(j == 4){
+                }else if(i == 2 && j == 0){
                     _detector = detectorR
+                }else if(i == 2 && j == 4){
+                    _detector = detectorL
+                }else if(i == 4 && j == 2){
+                    _detector = detectorT
                 } else flag = true
 
                 if(i % 2 == 0 && j % 2 == 0){
@@ -521,14 +530,14 @@ class GameActivity : AppCompatActivity(){
                                 }
                             }
 
-                            addedPieces = ArrayList()
+                            addedPiecesRound = ArrayList()
                             var selectedExpression: String = ""
                             for (k in 0..4) {
                                 val cur_piece = board.getChildAt(cur_id)
                                 cur_piece?.alpha = 0.2f;
                                 selectedExpression += (cur_piece as TextView).text
                                 selectedPieces.add(cur_id)
-                                addedPieces.add(cur_piece)
+                                addedPiecesRound.add(cur_piece)
                                 cur_id += step
                             }
                             Log.i("Asuryuuu", selectedExpression)
