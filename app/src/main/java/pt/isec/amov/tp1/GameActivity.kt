@@ -252,6 +252,39 @@ class GameActivity : AppCompatActivity(){
             }
         })
 
+        detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                            last_move_id = 0
+                            return true
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                            last_move_id = 2
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
+        })
+
         detectorLT = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
             override fun onFling(
                 e1: MotionEvent,
@@ -366,37 +399,6 @@ class GameActivity : AppCompatActivity(){
 
                 if(i == 0 && j  == 0) {
                     _detector = detectorRD
-                    piece.setOnTouchListener { v, event ->
-                        if (last_move_id != -1)
-                            return@setOnTouchListener true
-                        val boardId = resources.getIdentifier("board", "id", packageName)
-                        val board = findViewById<GridLayout>(boardId)
-                        if (_detector.onTouchEvent(event)) {
-                            var step: Int = 0
-                            var cur_id: Int = 0
-                            Log.i(TAG, "last_move_id = $last_move_id")
-                            when (last_move_id) {
-                                0 -> {
-                                    step = 1
-                                    cur_id = i +5
-                                }
-                                1->{
-                                    super.onTouchEvent(event)
-                                }
-                                2 -> {
-                                    step = 5
-                                    cur_id = 5 + j
-                                }
-                                3->{
-                                    super.onTouchEvent(event)
-                                }
-                            }
-                            var selectedExpression: String = ""
-                            Log.i("Asuryuuu", selectedExpression)
-                            }
-                        last_move_id = -1
-                        true
-                }
                 }else if(i == 0 && j == 4){
                     _detector = detectorLD
                 }else if(i == 4 && j == 0){
@@ -423,7 +425,7 @@ class GameActivity : AppCompatActivity(){
 
                         if(flag) return@setOnTouchListener false
 
-                        if (detector.onTouchEvent(event)) {
+                        if (_detector.onTouchEvent(event)) {
                             var step: Int = 0
                             var cur_id: Int = 0
                             when (last_move_id) {
