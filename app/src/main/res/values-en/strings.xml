@@ -9,6 +9,9 @@
     <string name="salvar">Save</string>
     <string name="edit_paragraph">Here you can edit your profile and choose a cool name and a profile picture</string>
     <string name="points_placeholder">%1$dpts</string>
+    <string name="points_card">Points: %1$d</string>
+    <string name="level_card">Level: %1$d</string>
+    <string name="time_card">Time: %1$d</string>
     <string name="nivel_placeholder">Level %1$d</string>
     <string name="exit_dialog_title">Exit</string>
     <string name="exit_dialog_message">Do you really want to exit the game?</string>

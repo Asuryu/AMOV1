@@ -450,20 +450,24 @@ class GameActivity : AppCompatActivity(){
         }
 
         val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
-        val bottomSheetBehavior = BottomSheetBehavior.from(frameLayout)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+        val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
 
-        // Add textviews to the bottom sheet
-
-        for(i in 0..4){
-            val textView = TextView(this)
-            textView.text = "Hello World! $i"
-            textView.textSize = 30f
-            textView.gravity = Gravity.CENTER
-            textView.setTextColor(Color.parseColor("#000000"))
-            textView.setBackgroundColor(Color.parseColor("#FFFFFF"))
-            textView.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        for(i in 0 until 20){
+            addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
         }
+    }
+
+    private fun addCard(linearLayout: LinearLayout?, i: Int, points: Int, level: Int, time: Int) {
+        val player_card = layoutInflater.inflate(R.layout.player_card, null)
+        val cardText = player_card.findViewById<TextView>(R.id.player_name_ingame)
+        val cardPoints = player_card.findViewById<TextView>(R.id.points_card)
+        val cardLevel = player_card.findViewById<TextView>(R.id.level_card)
+        val cardTime = player_card.findViewById<TextView>(R.id.time_card)
+        cardPoints.text = getString(R.string.points_card, points)
+        cardLevel.text = getString(R.string.level_card, level)
+        cardTime.text = getString(R.string.time_card, time)
+        cardText.text = getString(R.string.jogadorMp, i)
+        linearLayout?.addView(player_card)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

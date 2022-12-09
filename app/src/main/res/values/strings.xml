@@ -10,6 +10,9 @@
     <string name="salvar">Salvar</string>
     <string name="edit_paragraph">Nesta página poderás editar as tuas informações de jogador</string>
     <string name="points_placeholder">%1$d pts</string>
+    <string name="points_card">Pontos: %1$d</string>
+    <string name="level_card">Nível: %1$d</string>
+    <string name="time_card">Tempo: %1$d</string>
     <string name="nivel_placeholder">Nível %1$d</string>
     <string name="exit_dialog_title">Sair</string>
     <string name="exit_dialog_message">Queres mesmo sair do jogo?</string>
