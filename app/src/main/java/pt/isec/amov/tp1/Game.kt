@@ -281,11 +281,17 @@ class Game : java.io.Serializable{
             checkLevel()
             return true
         } else if(expressions[expression] == secondMax){
-            points += 2
+            points += 1
             binding.playerPoints.text = context.getString(R.string.points_placeholder, points)
             expressions.remove(expression)
             correctAnswers++
             checkLevel()
+
+
+            for(element in context.addedPieces){
+                 element.alpha = 0.5f
+            }
+
             return true
         } else {
 
