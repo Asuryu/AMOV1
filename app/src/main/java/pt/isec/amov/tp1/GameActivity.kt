@@ -464,6 +464,45 @@ class GameActivity : AppCompatActivity(){
 
 
 
+                if(i == 0 && j  == 0) {
+                    piece.setOnTouchListener { v, event ->
+                        if (last_move_id != -1)
+                            return@setOnTouchListener true
+
+                        val boardId = resources.getIdentifier("board", "id", packageName)
+                        val board = findViewById<GridLayout>(boardId)
+
+                        if (detectorRD.onTouchEvent(event)) {
+                            var step: Int = 0
+                            var cur_id: Int = 0
+                            when (last_move_id) {
+                                0 -> {
+                                    step = 1
+                                    cur_id = i * 5 + j
+                                }
+
+                                2 -> {
+                                    step = 5
+                                    cur_id = i * 5 + j
+                                }
+
+                            }
+
+                            var selectedExpression: String = ""
+                            for (k in 0..4) {
+                                val cur_piece = board.getChildAt(cur_id)
+                                cur_piece?.alpha = 0.2f;
+                                selectedExpression += (cur_piece as TextView).text
+                                selectedPieces.add(cur_id)
+                                cur_id += step
+                            }
+                            var ret = game.checkExpression(selectedExpression)
+                        }
+                        last_move_id = -1
+                        true
+                }
+                }
+
                 if(i % 2 == 0 && j % 2 == 0){
                     piece.setOnTouchListener { v, event ->
                         if (last_move_id != -1)
