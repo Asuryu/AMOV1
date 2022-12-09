@@ -48,7 +48,7 @@ class GameActivity : AppCompatActivity(){
         }
     }
 
-    private fun showEndGameScreen() {
+    public fun showEndGameScreen() {
         val intent = Intent(this, GameEndActivity::class.java)
         intent.putExtra("points", game.points)
         intent.putExtra("level", game.level)
@@ -90,49 +90,10 @@ class GameActivity : AppCompatActivity(){
                 binding.board.getChildAt(i).alpha = 0.2f
             }
             game = Game(tmpGame, this, binding, selectedPieces)
-            timeLeft = savedInstanceState.getInt("timeLeft")
             binding.timer.background.setTint(Color.parseColor(game.timerColor[game.level - 1]))
-
-            timer = object : CountDownTimer((timeLeft * 1000).toLong(), 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    binding.timer.text = (millisUntilFinished / 1000).toString()
-                    timeLeft = ((millisUntilFinished / 1000).toInt())
-                }
-
-                override fun onFinish() {
-                    binding.timer.text = "0"
-                    timeLeft = 0
-                    showEndGameScreen()
-                }
-
-                fun stopTimer(){
-                    cancel()
-                }
-            }
-            timer.start()
-
         }
         else {
             game = Game(this, binding)
-            timer = object : CountDownTimer(game.GAME_TIME, 1000) {
-
-                override fun onTick(millisUntilFinished: Long) {
-                    binding.timer.text = (millisUntilFinished / 1000).toString()
-                    timeLeft = ((millisUntilFinished / 1000).toInt())
-                }
-
-                override fun onFinish() {
-                    binding.timer.text = "0"
-                    timeLeft = 0
-                    showEndGameScreen()
-                }
-
-                fun stopTimer(){
-                    cancel()
-                }
-            }
-            timer.start()
         }
 
         // set string with level
@@ -151,41 +112,7 @@ class GameActivity : AppCompatActivity(){
         lateinit var detectorT : GestureDetectorCompat
 
 
-        detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                val diffX = e2!!.x - e1!!.x
-                val diffY = e2.y - e1.y
-                if(Math.abs(diffX) > Math.abs(diffY)){
-                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                        if(diffX > 0){
-                            // swipe right
-                            Log.i(TAG, "swipe right")
-                            onSwipeRight()
-                            last_move_id = 0
-                            return true
-                        }else{
-                            super.onFling(e1, e2, velocityX, velocityY)
-                        }
-                    }
-                } else {
-                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                        if(diffY > 0){
-                            // swipe down
-                            Log.i(TAG, "swipe down")
-                            onSwipeBottom()
-                            last_move_id = 2
-                            return true
-                        }else{super.onFling(e1, e2, velocityX, velocityY)}
-                    }
-                }
-                return false
-            }
-        })
+
 
         detectorLD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
             override fun onFling(
@@ -325,6 +252,39 @@ class GameActivity : AppCompatActivity(){
             }
         })
 
+        detectorRD = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                val diffX = e2!!.x - e1!!.x
+                val diffY = e2.y - e1.y
+                if(Math.abs(diffX) > Math.abs(diffY)){
+                    if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
+                        if(diffX > 0){
+                            Log.i(TAG, "swipe right")
+                            onSwipeRight()
+                            last_move_id = 0
+                            return true
+                        }
+                    }
+                } else {
+                    if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
+                        if(diffY > 0){
+                            // swipe down
+                            Log.i(TAG, "swipe down")
+                            onSwipeBottom()
+                            last_move_id = 2
+                            return true
+                        }
+                    }
+                }
+                return false
+            }
+        })
+
         detectorLT = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
             override fun onFling(
                 e1: MotionEvent,
@@ -429,58 +389,15 @@ class GameActivity : AppCompatActivity(){
             }
         })
 
-
         for(i in 0..4){
             for(j in 0..4){
                 val id = resources.getIdentifier("piece${i}_${j}", "id", packageName)
                 val piece = findViewById<TextView>(id)
 
-                detector = GestureDetectorCompat(this, object : GestureDetector.SimpleOnGestureListener(){
-                    override fun onFling(
-                        e1: MotionEvent,
-                        e2: MotionEvent,
-                        velocityX: Float,
-                        velocityY: Float
-                    ): Boolean {
-                        val diffX = e2!!.x - e1!!.x
-                        val diffY = e2.y - e1.y
-                        if(Math.abs(diffX) > Math.abs(diffY)){
-                            if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                                if(diffX > 0){
-                                    // swipe right
-                                    Log.i(TAG, "swipe right")
-                                    onSwipeRight()
-                                    last_move_id = 0
-                                } else {
-                                    // swipe left
-                                    Log.i(TAG, "swipe left")
-                                    onSwipeLeft()
-                                    last_move_id = 1
-                                }
-                            }
-                        } else {
-                            if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                                if(diffY > 0){
-                                    // swipe down
-                                    Log.i(TAG, "swipe down")
-                                    onSwipeBottom()
-                                    last_move_id = 2
-                                } else {
-                                    // swipe up
-                                    Log.i(TAG, "swipe up")
-                                    onSwipeTop()
-                                    last_move_id = 3
-                                }
-                            }
-                        }
-                        return true
-                    }
-                })
-
                 lateinit var _detector : GestureDetectorCompat
                 var flag = false
 
-                if(i == 0 && j == 0){
+                if(i == 0 && j  == 0) {
                     _detector = detectorRD
                 }else if(i == 0 && j == 4){
                     _detector = detectorLD
@@ -556,7 +473,6 @@ class GameActivity : AppCompatActivity(){
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("game", game)
-        outState.putInt("timeLeft", timeLeft)
         outState.putSerializable("selectedPieces", selectedPieces)
     }
 
