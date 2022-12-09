@@ -30,7 +30,7 @@ class GameActivity : AppCompatActivity(){
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()
 
-    var timer : CountDownTimer = object : CountDownTimer(10000, 1000) {
+    var timer : CountDownTimer = object : CountDownTimer(1000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
             binding.timer.text = (millisUntilFinished / 1000).toString()

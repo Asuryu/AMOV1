@@ -20,7 +20,6 @@ import pt.isec.amov.tp1.databinding.ActivityGameEndMpBinding
 import pt.isec.amov.tp1.databinding.ActivityGameEndSpBinding
 
 class GameEndActivity : AppCompatActivity() {
-    lateinit var binding : ActivityGameEndMpBinding
     private lateinit var bindingSP : ActivityGameEndSpBinding
     private lateinit var bindingMP : ActivityGameEndMpBinding
 
@@ -34,24 +33,10 @@ class GameEndActivity : AppCompatActivity() {
             bindingMP = ActivityGameEndMpBinding.inflate(layoutInflater)
             setContentView(bindingMP.root)
 
-            val scrollView = bindingMP.scrollView
-            val linearLayout = bindingMP.linearScrollView
-
-            val textView = TextView(this)
-            textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            textView.textSize = 30F
-            textView.text = "Pontuação"
-            textView.setTextColor(getColor(R.color.white))
-            textView.setPadding(0, 0, 0, 20)
-            linearLayout.addView(textView)
+            val linearLayout = findViewById<LinearLayout>(bindingMP.container.id)
 
             for(i in 0 until 20){
-                val textView = TextView(this)
-                textView.text = "Teste $i"
-                textView.setTextColor(getColor(R.color.white))
-                textView.textSize = 20f
-                textView.setPadding(0, 0, 0, 20)
-                linearLayout.addView(textView)
+                addCard(linearLayout,i, points, level)
             }
 
             bindingMP.tryAgain.setOnClickListener {
@@ -81,5 +66,35 @@ class GameEndActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
+
+    private fun addCard(linearLayout: LinearLayout?, i: Int, points: Int, level: Int) {
+        val card = layoutInflater.inflate(R.layout.card, null)
+
+        val avatar = card.findViewById<ShapeableImageView>(R.id.player_avatarMp)
+        val name = card.findViewById<TextView>(R.id.player_name_2_mp)
+        val tvLevel = card.findViewById<TextView>(R.id.player_lvl_2_mp)
+        val tvPoints = card.findViewById<TextView>(R.id.player_pts_2_mp)
+
+        //Check is the user has a custom avatar
+        if(loadImage(this, "avatar.jpg") != null){
+            val drawable = BitmapDrawable(resources, loadImage(this, "avatar.jpg"))
+            avatar.setImageDrawable(drawable)
+            avatar.clipToOutline = true
+            avatar.isEnabled = true
+        } else {
+            avatar.setImageDrawable(getDrawable(R.drawable.untitled_1))
+        }
+        if(getUsername(this) != null){
+            name.text = getUsername(this)
+        } else {
+            name.text = getString(R.string.jogadorMp, i)
+        }
+
+        val playerLevel = getString(R.string.finalLevelMp, level)
+        tvLevel.text = playerLevel
+        val playerPoints = getString(R.string.finalPointsMp, points)
+        tvPoints.text = playerPoints
+        linearLayout?.addView(card)
     }
 }

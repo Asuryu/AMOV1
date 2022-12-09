@@ -5,8 +5,7 @@
     <string name="editar_perfil">Edit Profile</string>
     <string name="alterar_fotografia">Change profile picture</string>
     <string name="jogador">Player</string>
-    <string name="jogador1">Player 1</string>
-    <string name="jogador2">Player 2</string>
+    <string name="jogadorMp">Player %1$d</string>
     <string name="salvar">Save</string>
     <string name="edit_paragraph">Here you can edit your profile and choose a cool name and a profile picture</string>
     <string name="points_placeholder">%1$dpts</string>
@@ -26,5 +25,7 @@
     <string name="pointsMp">Points won:</string>
     <string name="finalLevel">%1$d</string>
     <string name="finalPoints">%1$d</string>
-    <string name="pontuacao">Scoreboard</string>
+    <string name="finalLevelMp">Level: %1$d</string>
+    <string name="finalPointsMp">Points: %1$d</string>
+    <string name="pontuacao">Scoreboard:</string>
 </resources>

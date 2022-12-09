@@ -6,8 +6,7 @@
     <string name="editar_perfil">Editar Perfil</string>
     <string name="alterar_fotografia">Alterar fotografia</string>
     <string name="jogador">Jogador</string>
-    <string name="jogador1">Jogador 1</string>
-    <string name="jogador2">Jogador 2</string>
+    <string name="jogadorMp">Jogador %1$d</string>
     <string name="salvar">Salvar</string>
     <string name="edit_paragraph">Nesta página poderás editar as tuas informações de jogador</string>
     <string name="points_placeholder">%1$d pts</string>
@@ -27,5 +26,7 @@
     <string name="pointsMp">Pontos ganhos:</string>
     <string name="finalLevel">%1$d</string>
     <string name="finalPoints">%1$d</string>
-    <string name="pontuacao">Pontuação</string>
+    <string name="finalLevelMp">Nível: %1$d</string>
+    <string name="finalPointsMp">Pontos: %1$d</string>
+    <string name="pontuacao">Pontuação:</string>
 </resources>

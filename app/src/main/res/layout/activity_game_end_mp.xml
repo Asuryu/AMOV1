@@ -14,14 +14,12 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="10dp"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="10dp"
-        android:visibility="visible">
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/gameEndImage"
@@ -55,7 +53,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:autoSizeMaxTextSize="30sp"
             android:autoSizeMinTextSize="20sp"
             android:fontFamily="@font/adneue_bold"
@@ -65,11 +63,29 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dividerThickness="3dp"
+            app:dividerColor="@color/white"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMinTextSize="20sp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="@string/pontuacao"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
         <ScrollView
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="20dp"
+            android:layout_height="350dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_box"
             android:backgroundTint="#373737"
@@ -77,25 +93,10 @@
             android:scrollbars="vertical">
 
             <LinearLayout
-                android:id="@+id/linearScrollView"
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/adneue_bold"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.502"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/player_avatarMp" />
 
             </LinearLayout>
 
