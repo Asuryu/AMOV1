@@ -13,12 +13,10 @@ class Game : java.io.Serializable{
         private const val serialVersionUID = 1L
     }
 
-    // selecionar linha errada em landscape e se rodar para portrait a linha ainda fica selecionada (FIX)
-
     var board : ArrayList<ArrayList<String>> = ArrayList()
     var expressions : HashMap<String, Int> = HashMap()
 
-    val GAME_TIME = 1000L
+    val GAME_TIME = 120000L
     var level : Int = 0
     var points : Int = 0
     var minRange : Int = 1
@@ -304,6 +302,10 @@ class Game : java.io.Serializable{
             expressions.remove(expression)
             correctAnswers++
             context.addedPiecesRound.clear()
+            // add 5 seconds to timer
+            timer.cancel()
+            timer = getTimerObject( timeLeft + 5000 )
+            timer.start()
             checkLevel()
             return true
         } else if(expressions[expression] == secondMax){
@@ -317,8 +319,10 @@ class Game : java.io.Serializable{
             context.addedPiecesRound.clear()
 
             correctAnswers++
+            timer.cancel()
+            timer = getTimerObject( timeLeft + 3000 )
+            timer.start()
             checkLevel()
-
             return true
         } else {
 

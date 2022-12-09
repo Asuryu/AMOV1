@@ -23,30 +23,10 @@ class GameActivity : AppCompatActivity(){
 
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
-    var timeLeft : Int = 0
     var isMultiplayer : Boolean = true
-    private lateinit var detector : GestureDetectorCompat
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()
-
-    var timer : CountDownTimer = object : CountDownTimer(1000, 1000) {
-
-        override fun onTick(millisUntilFinished: Long) {
-            binding.timer.text = (millisUntilFinished / 1000).toString()
-            timeLeft = ((millisUntilFinished / 1000).toInt())
-        }
-
-        override fun onFinish() {
-            binding.timer.text = "0"
-            timeLeft = 0
-            showEndGameScreen()
-        }
-
-        fun stopTimer(){
-            cancel()
-        }
-    }
 
     public fun showEndGameScreen() {
         val intent = Intent(this, GameEndActivity::class.java)
@@ -60,7 +40,6 @@ class GameActivity : AppCompatActivity(){
     companion object {
         private const val TAG = "GameActivity"
     }
-
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -499,7 +478,7 @@ class GameActivity : AppCompatActivity(){
         builder.setMessage(getString(R.string.exit_dialog_message))
         builder.setPositiveButton(getString(R.string.sim)) { _, _ ->
             super.onBackPressed()
-            timer.cancel()
+            game.timer.cancel()
         }
 
         builder.setNegativeButton(getString(R.string.nao)) { dialog, _ ->
