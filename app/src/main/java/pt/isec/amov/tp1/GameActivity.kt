@@ -9,14 +9,15 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.GestureDetector
+import android.view.Gravity
 import android.view.MotionEvent
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.children
 import androidx.gridlayout.widget.GridLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import pt.isec.amov.tp1.databinding.ActivityGameBinding
 
 class GameActivity : AppCompatActivity(){
@@ -446,6 +447,22 @@ class GameActivity : AppCompatActivity(){
                 }
                 piece.text = game.board[i][j]
             }
+        }
+
+        val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+        val bottomSheetBehavior = BottomSheetBehavior.from(frameLayout)
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+
+        // Add textviews to the bottom sheet
+
+        for(i in 0..4){
+            val textView = TextView(this)
+            textView.text = "Hello World! $i"
+            textView.textSize = 30f
+            textView.gravity = Gravity.CENTER
+            textView.setTextColor(Color.parseColor("#000000"))
+            textView.setBackgroundColor(Color.parseColor("#FFFFFF"))
+            textView.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         }
     }
 
