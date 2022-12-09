@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.text.TextRunShaper
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -27,6 +28,7 @@ class GameActivity : AppCompatActivity(){
     private lateinit var detector : GestureDetectorCompat
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
+    var addedPieces: ArrayList<TextView> = ArrayList()
 
     var timer : CountDownTimer = object : CountDownTimer(10000, 1000) {
 
@@ -110,7 +112,8 @@ class GameActivity : AppCompatActivity(){
             }
             timer.start()
 
-        } else {
+        }
+        else {
             game = Game(this, binding)
             timer = object : CountDownTimer(game.GAME_TIME, 1000) {
 
@@ -132,6 +135,7 @@ class GameActivity : AppCompatActivity(){
             timer.start()
         }
 
+        // set string with level
         binding.level.text = getString(R.string.nivel_placeholder, game.level)
         binding.playerPoints.text = getString(R.string.points_placeholder, game.points)
         binding.level.text = getString(R.string.finalLevel, game.level)
@@ -464,7 +468,26 @@ class GameActivity : AppCompatActivity(){
                     }
                 })
 
+                lateinit var _detector : GestureDetectorCompat
+                var flag = false
 
+                if(i == 0 && j == 0){
+                    _detector = detectorLT
+                }else if(i == 0 && j == 4){
+                    _detector = detectorRT
+                }else if(i == 4 && j == 0){
+                    _detector = detectorLD
+                }else if(i == 4 && j == 4){
+                    _detector = detectorRD
+                }else if(i == 0){
+                    _detector = detectorT
+                }else if(i == 4){
+                    _detector = detectorD
+                }else if(j == 0){
+                    _detector = detectorL
+                }else if(j == 4){
+                    _detector = detectorR
+                } else flag = true
 
                 if(i % 2 == 0 && j % 2 == 0){
                     piece.setOnTouchListener { v, event ->
@@ -474,7 +497,9 @@ class GameActivity : AppCompatActivity(){
                         val boardId = resources.getIdentifier("board", "id", packageName)
                         val board = findViewById<GridLayout>(boardId)
 
-                        if (detector.onTouchEvent(event)) {
+                        if(flag) return@setOnTouchListener false
+
+                        if (_detector.onTouchEvent(event)) {
                             var step: Int = 0
                             var cur_id: Int = 0
                             when (last_move_id) {
@@ -496,14 +521,17 @@ class GameActivity : AppCompatActivity(){
                                 }
                             }
 
+                            addedPieces = ArrayList()
                             var selectedExpression: String = ""
                             for (k in 0..4) {
                                 val cur_piece = board.getChildAt(cur_id)
                                 cur_piece?.alpha = 0.2f;
                                 selectedExpression += (cur_piece as TextView).text
                                 selectedPieces.add(cur_id)
+                                addedPieces.add(cur_piece)
                                 cur_id += step
                             }
+                            Log.i("Asuryuuu", selectedExpression)
                             var ret = game.checkExpression(selectedExpression)
                         }
                         last_move_id = -1
