@@ -101,8 +101,8 @@ class Game : java.io.Serializable{
         context.selectedPieces.clear()
 
         Log.i("Asuryu", "Level: $level")
-        binding.level.text = context.getString(R.string.nivel_placeholder, level)
-        binding.timer.background.setTint(android.graphics.Color.parseColor(timerColor[level-1]))
+        context.binding.level.text = context.getString(R.string.nivel_placeholder, level)
+        context.binding.timer.background.setTint(android.graphics.Color.parseColor(timerColor[level-1]))
         correctAnswers = 0
         if (generateBoard) generateBoard()
     }
@@ -278,14 +278,22 @@ class Game : java.io.Serializable{
             binding.playerPoints.text = context.getString(R.string.points_placeholder, points)
             expressions.remove(expression)
             correctAnswers++
+            context.addedPiecesRound.clear()
             checkLevel()
             return true
         } else if(expressions[expression] == secondMax){
-            points += 2
+            points += 1
             binding.playerPoints.text = context.getString(R.string.points_placeholder, points)
             expressions.remove(expression)
+
+            for(i in context.addedPiecesRound){
+                i.alpha = 0.2f
+            }
+            context.addedPiecesRound.clear()
+
             correctAnswers++
             checkLevel()
+
             return true
         } else {
 
@@ -299,6 +307,7 @@ class Game : java.io.Serializable{
                 }
             }
             context.selectedPieces.clear()
+            context.addedPiecesRound.clear()
 
             generateBoard()
             return false
