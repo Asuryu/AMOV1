@@ -528,6 +528,7 @@ class GameActivity : AppCompatActivity(){
                                     step = -5
                                     cur_id = i * 5 + j
                                 }
+                                -1 -> return@setOnTouchListener false
                             }
 
                             addedPiecesRound = ArrayList()
