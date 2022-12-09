@@ -61,6 +61,7 @@ class Game : java.io.Serializable{
         this.binding = binding
         this.context = context
 
+        binding.correctAnswers?.text = context.getString(R.string.correctAnswers, correctAnswers, correctAnswersNeeded)
         timer = getTimerObject(timeLeft)
         timer.start()
     }
@@ -127,6 +128,7 @@ class Game : java.io.Serializable{
         context.binding.level.text = context.getString(R.string.nivel_placeholder, level)
         context.binding.timer.background.setTint(android.graphics.Color.parseColor(timerColor[level-1]))
         correctAnswers = 0
+        binding.correctAnswers?.text = context.getString(R.string.correctAnswers, correctAnswers, correctAnswersNeeded)
         if (generateBoard) generateBoard()
     }
 
@@ -344,6 +346,7 @@ class Game : java.io.Serializable{
     }
 
     fun checkLevel(){
+        binding.correctAnswers?.text = context.getString(R.string.correctAnswers, correctAnswers, correctAnswersNeeded)
         if(correctAnswers == correctAnswersNeeded){
             nextLevel()
         }

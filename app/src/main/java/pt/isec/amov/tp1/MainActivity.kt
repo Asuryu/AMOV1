@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.mpButton.setOnClickListener {
+            val intent = Intent(this, MultiplayerLobby::class.java)
+            startActivity(intent)
+        }
+
         binding.editprofileBtn.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)

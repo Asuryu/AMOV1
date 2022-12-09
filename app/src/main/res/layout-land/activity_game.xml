@@ -95,19 +95,34 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
-    <TextView
-        android:id="@+id/level"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:fontFamily="@font/adneue_bold"
-        android:text="@string/nivel_placeholder"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="27sp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/timer"
         app:layout_constraintEnd_toStartOf="@+id/timer"
-        app:layout_constraintTop_toTopOf="@+id/timer" />
+        app:layout_constraintTop_toTopOf="@+id/timer">
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="@string/nivel_placeholder"
+            android:textAlignment="textEnd"
+            android:textColor="#FFFFFF"
+            android:textSize="27sp" />
+
+        <TextView
+            android:id="@+id/correctAnswers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/correctAnswers"
+            android:textAlignment="textEnd"
+            android:textColor="#838383" />
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
