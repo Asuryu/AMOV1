@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.util.Patterns
+import android.view.View
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.postDelayed
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import pt.isec.ans.rockpaperscissors.MultiplayerLobbyViewModel
-import kotlin.properties.ReadOnlyProperty
 
 class MultiplayerLobby : AppCompatActivity() {
 
@@ -21,11 +23,6 @@ class MultiplayerLobby : AppCompatActivity() {
         private const val SERVER_MODE = 0
         private const val CLIENT_MODE = 1
 
-        fun getServerModeIntent(context : Context) : Intent {
-            return Intent(context,ActivityMultiplayerLobbyBinding::class.java).apply {
-                putExtra("mode", SERVER_MODE)
-            }
-        }
 
         fun getClientModeIntent(context : Context) : Intent {
             return Intent(context,ActivityMultiplayerLobbyBinding::class.java).apply {
@@ -33,10 +30,9 @@ class MultiplayerLobby : AppCompatActivity() {
             }
         }
     }
-    private val model: MultiplayerLobbyViewModel by viewModels()
+    private val model: MultiplayerLobbyViewModel by this.viewModels()
 
 
-    private lateinit var tvInfo: TextView
     private var dlg: AlertDialog? = null
 
     @SuppressLint("ServiceCast")
@@ -45,6 +41,7 @@ class MultiplayerLobby : AppCompatActivity() {
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         binding = ActivityMultiplayerLobbyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.copyToClipboardBtn.setOnClickListener(){
             val clip = ClipData.newPlainText("label", binding.serverIpLobby.text)
@@ -64,62 +61,98 @@ class MultiplayerLobby : AppCompatActivity() {
             binding.playerNameLobby.text = R.string.jogador.toString()
         }
 
-        binding.btnClient.setOnClickListener {
-            val intent = Intent(this, MultiplayerLobby::class.java)
-            startActivity(MultiplayerLobby.getClientModeIntent(this))
+      binding.btnClient.setOnClickListener {
+          val edtBox = EditText(this).apply {
+              maxLines = 1
+              filters = arrayOf(object : InputFilter {
+                  override fun filter(
+                      source: CharSequence?,
+                      start: Int,
+                      end: Int,
+                      dest: Spanned?,
+                      dstart: Int,
+                      dend: Int
+                  ): CharSequence? {
+                      source?.run {
+                          var ret = ""
+                          forEach {
+                              if (it.isDigit() || it == '.')
+                                  ret += it
+                          }
+                          return ret
+                      }
+                      return null
+                  }
+
+              })
+          }
+          val dlg = AlertDialog.Builder(this)
+              .setTitle(R.string.client_mode)
+              .setMessage(R.string.ask_ip)
+              .setPositiveButton(R.string.button_connect) { _: DialogInterface, _: Int ->
+                  val strIP = edtBox.text.toString()
+                  if (strIP.isEmpty() || !Patterns.IP_ADDRESS.matcher(strIP).matches()) {
+                      Toast.makeText(this@MultiplayerLobby, R.string.error_address, Toast.LENGTH_LONG).show()
+                      finish()
+                  } else {
+                      model.startClient(strIP)
+                  }
+              }
+
+              .setNegativeButton(R.string.button_cancel) { _: DialogInterface, _: Int ->
+                  finish()
+              }
+              .setCancelable(false)
+              .setView(edtBox)
+              .create()
+
+          dlg.show()
+           // startActivity(getClientModeIntent(this))
+
         }
 
-
-        startAsClient()
-
-
-    }
-
-    private fun startAsClient() {
-        val edtBox = EditText(this).apply {
-            maxLines = 1
-            filters = arrayOf(object : InputFilter {
-                override fun filter(
-                    source: CharSequence?,
-                    start: Int,
-                    end: Int,
-                    dest: Spanned?,
-                    dstart: Int,
-                    dend: Int
-                ): CharSequence? {
-                    source?.run {
-                        var ret = ""
-                        forEach {
-                            if (it.isDigit() || it == '.')
-                                ret += it
-                        }
-                        return ret
-                    }
-                    return null
-                }
-
-            })
+        model.state.observe(this) {
+            updateUI()
         }
-        val dlg = AlertDialog.Builder(this)
-            .setTitle(R.string.client_mode)
-            .setMessage(R.string.ask_ip)
-            .setPositiveButton(R.string.button_connect) { _: DialogInterface, _: Int ->
-                val strIP = edtBox.text.toString()
-                if (strIP.isEmpty() || !Patterns.IP_ADDRESS.matcher(strIP).matches()) {
-                    Toast.makeText(this@MultiplayerLobby, R.string.error_address, Toast.LENGTH_LONG).show()
-                    finish()
-                } else {
-                    model.startClient(strIP)
-                }
+
+        model.connectionState.observe(this) { state ->
+            updateUI()
+            if (state != MultiplayerLobbyViewModel.ConnectionState.SETTING_PARAMETERS &&
+                state != MultiplayerLobbyViewModel.ConnectionState.SERVER_CONNECTING &&
+                dlg?.isShowing == true) {
+                dlg?.dismiss()
+                dlg = null
             }
 
-            .setNegativeButton(R.string.button_cancel) { _: DialogInterface, _: Int ->
+            if (state == MultiplayerLobbyViewModel.ConnectionState.CONNECTION_ERROR ||
+                state == MultiplayerLobbyViewModel.ConnectionState.CONNECTION_ENDED ) {
                 finish()
             }
-            .setCancelable(false)
-            .setView(edtBox)
-            .create()
+        }
 
-        dlg.show()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                //to do: should ask if the user wants to finish
+                model.stopGame()
+            }
+        })
+
+
     }
+
+    override fun onPause() {
+        super.onPause()
+        dlg?.run {
+            if (isShowing)
+                dismiss()
+        }
+    }
+    private fun updateUI() {
+        if (model.connectionState.value != MultiplayerLobbyViewModel.ConnectionState.CONNECTION_ESTABLISHED) {
+            return
+        }
+        model.startGame()
+
+    }
+
 }

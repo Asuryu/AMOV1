@@ -40,6 +40,7 @@
     <string name="button_connect">Connect</string>
     <string name="button_cancel">Cancel</string>
     <string name="error_address">Address not recognized</string>
+    <string name="ask_name">Choose your name:</string>
     <string name="msg_ip_address" translatable="false">Server IP address: %s\nWaiting for a client...</string>
     <string name="credits_text">Aplicação desenvolvida no contexto da unidade curricular de Arquiteturas Móveis do 3º ano de Licenciatura em Engenharia Informática do Instituto Superior de Engenharia de Coimbra</string>
 </resources>

@@ -34,7 +34,7 @@ class MultiplayerLobbyViewModel : ViewModel() {
     private val socketO: OutputStream?
         get() = socket?.getOutputStream()
 
-    private var serverSocket: ServerSocket? = null
+
 
     private var threadComm: Thread? = null
 

@@ -204,6 +204,7 @@
             android:text="@string/client_mode"
             android:textAllCaps="false"
             android:textSize="32sp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

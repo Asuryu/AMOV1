@@ -38,5 +38,6 @@
     <string name="button_connect">Connect</string>
     <string name="button_cancel">Cancel</string>
     <string name="error_address">Address not recognized</string>
+    <string name="ask_name">Choose your name:</string>
     <string name="credits_text">Application developed in the context of the curricular unit of Mobile Architectures of the 3rd year of the Degree in Computer Engineering at Instituto Superior de Engenharia de Coimbra</string>
 </resources>
