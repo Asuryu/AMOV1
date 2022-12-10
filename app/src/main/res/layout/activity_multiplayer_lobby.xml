@@ -193,6 +193,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.0"></LinearLayout>
+        app:layout_constraintVertical_bias="0.0">
+
+        <Button
+            android:id="@+id/btnClient"
+            android:layout_width="389dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="136dp"
+            android:padding="16dp"
+            android:text="@string/client_mode"
+            android:textAllCaps="false"
+            android:textSize="32sp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
