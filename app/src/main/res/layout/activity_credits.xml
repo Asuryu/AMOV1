@@ -6,13 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".CreditsActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:gravity="center">
-
         <androidx.constraintlayout.utils.widget.ImageFilterButton
             android:id="@+id/imageFilterButton"
             android:layout_width="40dp"
@@ -36,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/adneue_bold"
-            android:text="Créditos"
+            android:text="@string/credits"
             android:textColor="#FFFFFF"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +44,7 @@
             android:fontFamily="@font/adineue_regular"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:text="Esta aplicação foi desenvolvida por 3 marrecos interessados em programação no âmbito da cadeira de Aplicações Móveis :)"
+            android:text="@string/credits_text"
             android:textAlignment="center"
             android:textColor="#AAA9A9"
             android:textSize="18sp"
@@ -59,122 +52,128 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/creditos_subtitle">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/player_avatar0"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_box"
+            android:backgroundTint="#FF9800"
+            android:clipToOutline="true"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/textView0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/roundimageview"
+            app:strokeColor="#FF9800"
+            app:strokeWidth="5dp"
+            tools:targetApi="s" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/player_avatar1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_box"
+            android:backgroundTint="#FF9800"
+            android:clipToOutline="true"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/textView1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/creditos_subtitle"
-            android:gravity="center">
+            app:layout_constraintTop_toBottomOf="@+id/textView0"
+            app:shapeAppearanceOverlay="@style/roundimageview"
+            app:strokeColor="#FF9800"
+            app:strokeWidth="5dp"
+            tools:targetApi="s" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/player_avatar0"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_margin="0dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/rounded_box"
-                android:backgroundTint="#FF9800"
-                android:clipToOutline="true"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundimageview"
-                app:strokeColor="#FF9800"
-                app:strokeWidth="5dp"
-                tools:targetApi="s" />
-
-            <TextView
-                android:id="@+id/textView0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/adneue_bold"
-                android:text="Tomás Silva"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+        <TextView
+            android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="Tânia Guedes"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/player_avatar2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            android:gravity="center">
+            app:layout_constraintTop_toBottomOf="@+id/player_avatar1" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/player_avatar1"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_margin="0dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/rounded_box"
-                android:backgroundTint="#FF9800"
-                android:clipToOutline="true"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundimageview"
-                app:strokeColor="#FF9800"
-                app:strokeWidth="5dp"
-                tools:targetApi="s" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/player_avatar2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_margin="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/rounded_box"
+            android:backgroundTint="#FF9800"
+            android:clipToOutline="true"
+            android:padding="10dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/creditos_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1"
+            app:shapeAppearanceOverlay="@style/roundimageview"
+            app:strokeColor="#FF9800"
+            app:strokeWidth="5dp"
+            tools:targetApi="s" />
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/adneue_bold"
-                android:text="Tânia Guedes"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/creditos_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="Rafael Couto"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            android:gravity="center">
+            app:layout_constraintTop_toBottomOf="@+id/player_avatar2" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/player_avatar2"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_margin="0dp"
-                android:adjustViewBounds="true"
-                android:background="@drawable/rounded_box"
-                android:backgroundTint="#FF9800"
-                android:clipToOutline="true"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                app:shapeAppearanceOverlay="@style/roundimageview"
-                app:strokeColor="#FF9800"
-                app:strokeWidth="5dp"
-                tools:targetApi="s" />
+        <TextView
+            android:id="@+id/textView0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/adneue_bold"
+            android:text="Tomás Silva"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/player_avatar1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/player_avatar0" />
 
-            <TextView
-                android:id="@+id/creditos_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/adneue_bold"
-                android:text="Rafael Couto"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"/>
-        </LinearLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

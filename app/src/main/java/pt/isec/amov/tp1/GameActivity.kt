@@ -449,15 +449,18 @@ class GameActivity : AppCompatActivity(){
             }
         }
 
-        val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
-        val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
+        if(isMultiplayer){
+            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
 
-        for(i in 0 until 20){
-            addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
+            for(i in 0 until 20){
+                addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
+            }
         }
     }
 
     private fun addCard(linearLayout: LinearLayout?, i: Int, points: Int, level: Int, time: Int) {
+        //val cardAvatar = // TODO: get avatar from server
         val player_card = layoutInflater.inflate(R.layout.player_card, null)
         val cardText = player_card.findViewById<TextView>(R.id.player_name_ingame)
         val cardPoints = player_card.findViewById<TextView>(R.id.points_card)
