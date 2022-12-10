@@ -460,6 +460,7 @@ class GameActivity : AppCompatActivity(){
     }
 
     private fun addCard(linearLayout: LinearLayout?, i: Int, points: Int, level: Int, time: Int) {
+        //val cardAvatar = // TODO: get avatar from server
         val player_card = layoutInflater.inflate(R.layout.player_card, null)
         val cardText = player_card.findViewById<TextView>(R.id.player_name_ingame)
         val cardPoints = player_card.findViewById<TextView>(R.id.points_card)
