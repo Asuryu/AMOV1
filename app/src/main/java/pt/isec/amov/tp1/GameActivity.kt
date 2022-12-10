@@ -449,11 +449,13 @@ class GameActivity : AppCompatActivity(){
             }
         }
 
-        val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
-        val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
+        if(isMultiplayer){
+            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
 
-        for(i in 0 until 20){
-            addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
+            for(i in 0 until 20){
+                addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
+            }
         }
     }
 

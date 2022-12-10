@@ -33,4 +33,6 @@
     <string name="finalPointsMp">Pontos: %1$d</string>
     <string name="pontuacao">Pontuação:</string>
     <string name="correctAnswers">%1$d/%2$d respostas acertadas</string>
+    <string name="credits">Créditos</string>
+    <string name="credits_text">Aplicação desenvolvida no contexto da unidade curricular de Arquiteturas Móveis do 3º ano de Licenciatura em Engenharia Informática do Instituto Superior de Engenharia de Coimbra</string>
 </resources>

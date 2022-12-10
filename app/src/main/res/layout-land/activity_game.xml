@@ -96,6 +96,7 @@
         tools:ignore="HardcodedText" />
 
     <LinearLayout
+        android:id="@+id/linearLayout6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -536,5 +537,69 @@
             app:layout_row="4" />
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/board"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+        <FrameLayout
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_box"
+            android:backgroundTint="#FA2C2C2C"
+            android:paddingTop="5dp"
+            android:scaleType="centerCrop"
+            app:behavior_peekHeight="40dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            app:shapeAppearanceOverlay="@style/roundimageview"
+            app:strokeColor="#FF9800">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="1dp"
+                android:paddingBottom="10dp"
+                app:dividerColor="@color/white"
+                app:dividerThickness="3dp" />
+
+            <TextView
+                android:id="@+id/scoreboard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/adneue_bold"
+                android:text="@string/pontuacao"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="10dp"
+                android:scrollbars="vertical">
+
+                <LinearLayout
+                    android:id="@+id/bottom_sheet_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTintMode="screen"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </FrameLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
