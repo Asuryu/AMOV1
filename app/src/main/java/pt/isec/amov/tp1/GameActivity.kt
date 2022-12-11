@@ -11,9 +11,11 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.children
 import androidx.gridlayout.widget.GridLayout
@@ -24,10 +26,10 @@ class GameActivity : AppCompatActivity(){
 
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
-    var isMultiplayer : Boolean = true
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()
+    var isMultiplayer : Boolean = false
 
     fun showEndGameScreen() {
         val intent = Intent(this, GameEndActivity::class.java)
@@ -46,6 +48,7 @@ class GameActivity : AppCompatActivity(){
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isMultiplayer = intent.getBooleanExtra("isMultiplayer", false)
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -445,6 +448,8 @@ class GameActivity : AppCompatActivity(){
         }
 
         if(isMultiplayer){
+            val coordinatorLayout = findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
+            coordinatorLayout.visibility = View.VISIBLE
             val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
             val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
 

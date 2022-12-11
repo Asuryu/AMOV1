@@ -29,8 +29,6 @@ class MultiplayerLobby : AppCompatActivity() {
         private  const val  TAG = "MultiplayerLobby"
     }
 
-
-
     private val model: MultiplayerLobbyViewModel by this.viewModels()
     private var dlg: AlertDialog? = null
 
