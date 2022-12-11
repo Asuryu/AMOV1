@@ -475,19 +475,19 @@ class GameActivity : AppCompatActivity(){
     }
 
     private fun onSwipeBottom() {
-        Toast.makeText(this, "Bottom Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Bottom Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeTop() {
-        Toast.makeText(this, "Top Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Top Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeLeft() {
-        Toast.makeText(this, "Left Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Left Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeRight() {
-        Toast.makeText(this, "Right Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Right Swipe", Toast.LENGTH_LONG).show()
     }
 
 
