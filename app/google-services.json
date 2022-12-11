@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "474254381865",
+    "project_id": "amov1-gps",
+    "storage_bucket": "amov1-gps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474254381865:android:01f5d5f3ac09c32b7f9d38",
+        "android_client_info": {
+          "package_name": "pt.isec.amov.tp1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474254381865-cj24ofb8432dha5ji06888uamjlohnep.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pt.isec.amov.tp1",
+            "certificate_hash": "eabc40a2a60a510a293b5497654b230d2b35f266"
+          }
+        },
+        {
+          "client_id": "474254381865-vuc1k7h420rl6q4r2gco29gt0fbkqetk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBka9bYQ6s9A1-A6FLyI8912_REv4wsulY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474254381865-vuc1k7h420rl6q4r2gco29gt0fbkqetk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
