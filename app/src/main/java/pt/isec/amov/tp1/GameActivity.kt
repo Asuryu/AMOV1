@@ -29,7 +29,7 @@ class GameActivity : AppCompatActivity(){
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()
 
-    public fun showEndGameScreen() {
+    fun showEndGameScreen() {
         val intent = Intent(this, GameEndActivity::class.java)
         intent.putExtra("points", game.points)
         intent.putExtra("level", game.level)
