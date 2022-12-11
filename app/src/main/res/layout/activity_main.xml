@@ -41,6 +41,7 @@
             app:shapeAppearanceOverlay="@style/roundimageview"
             app:strokeColor="#FF9800"
             app:strokeWidth="5dp"
+            tools:srcCompat="@tools:sample/avatars"
             tools:targetApi="s" />
 
         <TextView
@@ -107,6 +108,18 @@
             android:text="@string/multiplayer"
             android:textColor="#272727"
             app:icon="@drawable/ic_online_prediction_24"
+            app:iconGravity="textStart"
+            app:iconSize="30dp"
+            app:iconTint="#272727" />
+
+        <Button
+            android:id="@+id/top5_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FFFFFF"
+            android:text="Leaderboards"
+            android:textColor="#272727"
+            app:icon="@drawable/top5"
             app:iconGravity="textStart"
             app:iconSize="30dp"
             app:iconTint="#272727" />

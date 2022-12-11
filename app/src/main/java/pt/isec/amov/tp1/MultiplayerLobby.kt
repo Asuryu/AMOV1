@@ -61,7 +61,7 @@ class MultiplayerLobby : AppCompatActivity() {
             binding.playerNameLobby.text = R.string.jogador.toString()
         }
 
-      binding.btnClient.setOnClickListener {
+      binding.connectToServerBtn.setOnClickListener {
           val edtBox = EditText(this).apply {
               maxLines = 1
               filters = arrayOf(object : InputFilter {

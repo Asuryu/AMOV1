@@ -28,6 +28,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.top5Button.setOnClickListener {
+            val intent = Intent(this, Top5Activity::class.java)
+            startActivity(intent)
+        }
+
         binding.editprofileBtn.setOnClickListener {
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)

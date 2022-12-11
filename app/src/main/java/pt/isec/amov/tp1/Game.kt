@@ -28,6 +28,7 @@ class Game : java.io.Serializable{
     var timerColor : ArrayList<String> = ArrayList( listOf("#ff931c", "#03befc", "#926ad4", "#8c3f75", "#3f8c70") )
     lateinit var timer : CountDownTimer
     var timeLeft : Long = GAME_TIME
+    var totalGameTime : Long = 0
 
     var randomGenerator = Random(System.currentTimeMillis())
 
@@ -56,6 +57,7 @@ class Game : java.io.Serializable{
         this.correctAnswers = game.correctAnswers
         this.timer = game.timer
         this.timeLeft = game.timeLeft
+        this.totalGameTime = game.totalGameTime
         this.timerColor = game.timerColor
         this.randomGenerator = game.randomGenerator
         this.binding = binding
@@ -71,6 +73,7 @@ class Game : java.io.Serializable{
             override fun onTick(millisUntilFinished: Long) {
                 binding.timer.text = (millisUntilFinished / 1000).toString()
                 timeLeft = millisUntilFinished
+                totalGameTime += 1000
             }
 
             override fun onFinish() {
@@ -307,6 +310,7 @@ class Game : java.io.Serializable{
             // add 5 seconds to timer
             timer.cancel()
             timer = getTimerObject( timeLeft + 5000 )
+            totalGameTime += 5000
             timer.start()
             checkLevel()
             return true
@@ -323,6 +327,7 @@ class Game : java.io.Serializable{
             correctAnswers++
             timer.cancel()
             timer = getTimerObject( timeLeft + 3000 )
+            totalGameTime += 3000
             timer.start()
             checkLevel()
             return true

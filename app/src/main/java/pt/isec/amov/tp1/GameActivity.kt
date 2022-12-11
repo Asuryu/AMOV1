@@ -34,6 +34,7 @@ class GameActivity : AppCompatActivity(){
         intent.putExtra("points", game.points)
         intent.putExtra("level", game.level)
         intent.putExtra("isMultiplayer", isMultiplayer)
+        intent.putExtra("totalGameTime", game.totalGameTime)
         startActivity(intent)
         finish()
     }
@@ -276,27 +277,21 @@ class GameActivity : AppCompatActivity(){
                 val diffY = e2.y - e1.y
                 if(Math.abs(diffX) > Math.abs(diffY)){
                     if(Math.abs(diffX) > 100 && Math.abs(velocityX) > 100){
-                        if(diffX > 0){
-                            // swipe right
-
-                            super.onFling(e1, e2, velocityX, velocityY)
-                        }else{
+                        if(diffX <= 0){
                             Log.i(TAG, "swipe left")
                             onSwipeLeft()
-                            last_move_id = 2
+                            last_move_id = 1
                             return true
                         }
                     }
                 } else {
                     if(Math.abs(diffY) > 100 && Math.abs(velocityY) > 100){
-                        if(diffY > 0){
-                            // swipe down
-                            super.onFling(e1, e2, velocityX, velocityY)
-                        }else{Log.i(TAG, "swipe top")
+                        if(diffY <= 0){
+                            Log.i(TAG, "swipe top")
                             onSwipeTop()
                             last_move_id = 3
                             return true
-                            }
+                        }
                     }
                 }
                 return false

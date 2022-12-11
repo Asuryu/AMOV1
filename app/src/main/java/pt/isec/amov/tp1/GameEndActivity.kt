@@ -16,6 +16,8 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import pt.isec.amov.tp1.databinding.ActivityGameEndMpBinding
 import pt.isec.amov.tp1.databinding.ActivityGameEndSpBinding
 
@@ -23,12 +25,51 @@ class GameEndActivity : AppCompatActivity() {
     private lateinit var bindingSP : ActivityGameEndSpBinding
     private lateinit var bindingMP : ActivityGameEndMpBinding
 
+    val db = Firebase.firestore
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val points = intent.getIntExtra("points", 0)
         val level = intent.getIntExtra("level", 0)
+        val totalGameTime = intent.getLongExtra("totalGameTime", 0)
         val isMultiplayer = intent.getBooleanExtra("isMultiplayer", false)
+
+        if(getUsername(this) != null){
+            var username = getUsername(this)
+            db.collection("top5")
+                .whereEqualTo("playerName", username)
+                .get()
+                .addOnSuccessListener {
+                    if(it.isEmpty){
+                        db.collection("top5")
+                            .add(
+                                hashMapOf(
+                                    "playerName" to username,
+                                    "playerPoints" to points,
+                                    "playerTopTime" to totalGameTime,
+                                )
+                            )
+                    } else {
+                        for(document in it){
+                            val currentPoints = document.data["playerPoints"] as Long
+                            if(currentPoints < points){
+                                db.collection("top5")
+                                    .document(document.id)
+                                    .update("playerPoints", points)
+                            }
+                            val currentTopTime = document.data["playerTopTime"] as Long
+                            if(currentTopTime < totalGameTime){
+                                db.collection("top5")
+                                    .document(document.id)
+                                    .update("playerTopTime", totalGameTime)
+                            }
+                        }
+                    }
+                }
+        }
+
+
         if (isMultiplayer) {
             bindingMP = ActivityGameEndMpBinding.inflate(layoutInflater)
             setContentView(bindingMP.root)
