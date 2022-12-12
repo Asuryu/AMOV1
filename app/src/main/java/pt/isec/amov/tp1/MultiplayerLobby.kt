@@ -1,13 +1,20 @@
 package pt.isec.amov.tp1
 
 import android.content.*
+import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import android.widget.TextView
+import java.io.InputStream
+import java.io.OutputStream
+import java.net.ServerSocket
+import java.net.Socket
+import kotlin.concurrent.thread
 
 class MultiplayerLobby : AppCompatActivity() {
 
@@ -15,10 +22,19 @@ class MultiplayerLobby : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var button: Button
 
+    private var socket: Socket? = null
+    private val socketI: InputStream?
+        get() = socket?.getInputStream()
+    private val socketO: OutputStream?
+        get() = socket?.getOutputStream()
+    private var serverSocket: ServerSocket? = null
+    private var threadComm: Thread? = null
+
     companion object {
         private const val SERVER_MODE = 0
         private const val CLIENT_MODE = 1
         private const val TAG = "MultiplayerLobby"
+        private const val SERVER_PORT = 5000
     }
 
     private var dlg: AlertDialog? = null
@@ -32,6 +48,8 @@ class MultiplayerLobby : AppCompatActivity() {
         val ip = intent.getStringExtra("ip")
         if (ip != null) {
             Toast.makeText(this, "IP: $ip", Toast.LENGTH_SHORT).show()
+        } else {
+            startServer()
         }
 
 
@@ -94,4 +112,50 @@ class MultiplayerLobby : AppCompatActivity() {
             dlg?.show()
         }
     }
+
+    fun connectToServer(ip: String){
+
+    }
+
+    fun startServer(){
+        val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+        val ip = wifiManager.connectionInfo.ipAddress
+        val strIpAddress = String.format(
+            "%d.%d.%d.%d",
+            ip and 0xff,
+            ip shr 8 and 0xff,
+            ip shr 16 and 0xff,
+            ip shr 24 and 0xff
+        )
+        binding.serverIpLobby.text = strIpAddress
+
+        if(serverSocket != null || socket != null) return
+
+        val linearLayout = findViewById<LinearLayout>(binding.connetedPlayersLobby.id)
+        linearLayout.removeAllViews()
+
+        thread {
+            serverSocket = ServerSocket(SERVER_PORT)
+            serverSocket?.run {
+                try {
+                    val socketClient = serverSocket!!.accept()
+                    Log.i("Asuryu", "Client connected")
+                } catch (_: Exception) {
+                    serverSocket?.close()
+                    serverSocket = null
+                    Intent (this@MultiplayerLobby, MainActivity::class.java).apply {
+                        startActivity(this)
+                    }
+                }
+            }
+        }
+    }
+
+    fun startComm(newSocket: Socket){
+        if (threadComm != null)
+            return
+
+        socket = newSocket
+    }
+
 }
