@@ -114,7 +114,14 @@ class MultiplayerLobby : AppCompatActivity() {
     }
 
     fun connectToServer(ip: String){
-
+        threadComm = thread {
+            try {
+                socket = Socket(ip, SERVER_PORT)
+                Log.d(TAG, "Connected to server")
+            } catch (e: Exception) {
+                Log.e(TAG, "Error connecting to server", e)
+                finish()
+            }
     }
 
     fun startServer(){
