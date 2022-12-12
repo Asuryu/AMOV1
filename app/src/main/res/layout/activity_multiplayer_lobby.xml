@@ -201,6 +201,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
+        android:id="@+id/conneted_players_lobby_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
@@ -215,6 +216,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <LinearLayout
+            android:id="@+id/conneted_players_lobby"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
