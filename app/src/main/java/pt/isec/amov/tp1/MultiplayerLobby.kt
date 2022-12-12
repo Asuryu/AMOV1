@@ -48,6 +48,7 @@ class MultiplayerLobby : AppCompatActivity() {
         val ip = intent.getStringExtra("ip")
         if (ip != null) {
             Toast.makeText(this, "IP: $ip", Toast.LENGTH_SHORT).show()
+            connectToServer(ip)
         } else {
             startServer()
         }
@@ -122,6 +123,7 @@ class MultiplayerLobby : AppCompatActivity() {
                 Log.e(TAG, "Error connecting to server", e)
                 finish()
             }
+        }
     }
 
     fun startServer(){
