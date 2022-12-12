@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
@@ -140,22 +141,25 @@ class MultiplayerLobby : AppCompatActivity() {
 
         if(serverSocket != null || socket != null) return
 
-        val linearLayout = findViewById<LinearLayout>(binding.connetedPlayersLobby.id)
-        linearLayout.removeAllViews()
-
         thread {
+            val linearLayout = findViewById<LinearLayout>(binding.connetedPlayersLobby.id)
+            linearLayout.removeAllViews()
+
             serverSocket = ServerSocket(SERVER_PORT)
             serverSocket?.run {
-                try {
-                    val socketClient = serverSocket!!.accept()
-                    Log.i("Asuryu", "Client connected")
-                } catch (_: Exception) {
+                val socketClient = serverSocket!!.accept()
+                Log.i("Asuryu", "Client connected")
+
+                val card = layoutInflater.inflate(R.layout.top5_card, binding.connetedPlayersLobby, false)
+                linearLayout.addView(card)
+                /*catch (e: Exception) {
+                    Log.i("Asuryu", e.message.toString())
                     serverSocket?.close()
                     serverSocket = null
                     Intent (this@MultiplayerLobby, MainActivity::class.java).apply {
                         startActivity(this)
                     }
-                }
+                }*/
             }
         }
     }
