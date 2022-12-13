@@ -153,7 +153,13 @@ class MultiplayerLobby : AppCompatActivity() {
                 try {
                     val socketClient = serverSocket!!.accept()
                     Log.i("Asuryu", "Client connected")
-                    connectedPlayers++
+                    Runnable {
+                        val cardView = layoutInflater.inflate(R.layout.top5_card, null)
+                        val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
+                        textView.text = "Player ${connectedPlayers}"
+                        linearLayout.addView(cardView)
+                        connectedPlayers++
+                    }.run()
                 } catch (_: Exception) {
                     serverSocket?.close()
                     serverSocket = null
@@ -165,13 +171,6 @@ class MultiplayerLobby : AppCompatActivity() {
                     serverSocket = null
                 }
             }
-        }
-        if(connectedPlayers != 0){
-            val cardView = layoutInflater.inflate(R.layout.top5_card, null)
-            val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
-            textView.text = "Player ${connectedPlayers + 1}"
-            linearLayout.addView(cardView)
-            connectedPlayers++
         }
     }
 
