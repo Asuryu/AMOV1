@@ -153,9 +153,11 @@ class MultiplayerLobby : AppCompatActivity() {
                 try {
                     val socketClient = serverSocket!!.accept()
                     Log.i("Asuryu", "Client connected")
-                    // TODO: Read json from client and send correct args
-                    val lobbyLayout = findViewById<LinearLayout>(binding.connectedPlayersLobby.id)
-                    addCard(lobbyLayout, connectedPlayers, "Jogador", "avatar.jpg")
+                    // Add card view every time a client connects
+                    val cardView = layoutInflater.inflate(R.layout.top5_card, null)
+                    val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
+                    textView.text = "Player ${connectedPlayers + 1}"
+                    linearLayout.addView(cardView)
                     connectedPlayers++
                 } catch (_: Exception) {
                     serverSocket?.close()
@@ -169,9 +171,10 @@ class MultiplayerLobby : AppCompatActivity() {
                 }
             }
         }
+        addCard(linearLayout, connectedPlayers, "Jogador", "avatar.jpg")
     }
 
-    private fun addCard(lobbyLayout: LinearLayout?, connectedPlayers: Int, s: String, s1: String) {
+    private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String, s1: String) {
         val playerCard = layoutInflater.inflate(R.layout.top5_card, null)
         val playerNumber = playerCard.findViewById<TextView>(R.id.top_hashtag)
         val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
@@ -179,7 +182,7 @@ class MultiplayerLobby : AppCompatActivity() {
         playerNumber.text = connectedPlayers.toString()
         playerName.text = s
         //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
-        lobbyLayout?.addView(playerCard)
+        linearLayout.addView(playerCard)
     }
 
     fun startComm(newSocket: Socket) {
