@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
