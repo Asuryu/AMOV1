@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import android.widget.TextView
+import com.google.api.Distribution.BucketOptions.Linear
 import org.w3c.dom.Text
 import java.io.InputStream
 import java.io.OutputStream
@@ -153,7 +154,8 @@ class MultiplayerLobby : AppCompatActivity() {
                     val socketClient = serverSocket!!.accept()
                     Log.i("Asuryu", "Client connected")
                     // TODO: Read json from client and send correct args
-                    addCard(linearLayout, connectedPlayers, "Jogador", "avatar.jpg")
+                    val lobbyLayout = findViewById<LinearLayout>(binding.connectedPlayersLobby.id)
+                    addCard(lobbyLayout, connectedPlayers, "Jogador", "avatar.jpg")
                     connectedPlayers++
                 } catch (_: Exception) {
                     serverSocket?.close()
@@ -169,15 +171,15 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
-    private fun addCard(linearLayout: LinearLayout?, connectedPlayers: Int, s: String, s1: String) {
-        val player_card = layoutInflater.inflate(R.layout.top5_card, null)
-        val playerNumber = player_card.findViewById<TextView>(R.id.top_hashtag)
-        val playerName = player_card.findViewById<TextView>(R.id.player_name_top5)
-        val playerAvatar = player_card.findViewById<ImageView>(R.id.player_avatar_top5)
+    private fun addCard(lobbyLayout: LinearLayout?, connectedPlayers: Int, s: String, s1: String) {
+        val playerCard = layoutInflater.inflate(R.layout.top5_card, null)
+        val playerNumber = playerCard.findViewById<TextView>(R.id.top_hashtag)
+        val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
+        val playerAvatar = playerCard.findViewById<ImageView>(R.id.player_avatar_top5)
         playerNumber.text = connectedPlayers.toString()
         playerName.text = s
         //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
-        linearLayout?.addView(player_card)
+        lobbyLayout?.addView(playerCard)
     }
 
     fun startComm(newSocket: Socket) {
