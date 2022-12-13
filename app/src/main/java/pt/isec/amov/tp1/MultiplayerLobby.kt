@@ -153,11 +153,6 @@ class MultiplayerLobby : AppCompatActivity() {
                 try {
                     val socketClient = serverSocket!!.accept()
                     Log.i("Asuryu", "Client connected")
-                    // Add card view every time a client connects
-                    val cardView = layoutInflater.inflate(R.layout.top5_card, null)
-                    val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
-                    textView.text = "Player ${connectedPlayers + 1}"
-                    linearLayout.addView(cardView)
                     connectedPlayers++
                 } catch (_: Exception) {
                     serverSocket?.close()
@@ -171,7 +166,13 @@ class MultiplayerLobby : AppCompatActivity() {
                 }
             }
         }
-        addCard(linearLayout, connectedPlayers, "Jogador", "avatar.jpg")
+        if(connectedPlayers != 0){
+            val cardView = layoutInflater.inflate(R.layout.top5_card, null)
+            val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
+            textView.text = "Player ${connectedPlayers + 1}"
+            linearLayout.addView(cardView)
+            connectedPlayers++
+        }
     }
 
     private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String, s1: String) {
@@ -179,6 +180,8 @@ class MultiplayerLobby : AppCompatActivity() {
         val playerNumber = playerCard.findViewById<TextView>(R.id.top_hashtag)
         val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
         val playerAvatar = playerCard.findViewById<ImageView>(R.id.player_avatar_top5)
+        val playerPoints = playerCard.findViewById<TextView>(R.id.player_points_top5)
+        playerPoints.visibility = View.INVISIBLE
         playerNumber.text = connectedPlayers.toString()
         playerName.text = s
         //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
