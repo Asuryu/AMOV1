@@ -445,7 +445,6 @@ class GameActivity : AppCompatActivity(){
         }
 
         if(isMultiplayer){
-            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
             val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
 
             for(i in 0 until 20){

@@ -216,7 +216,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <LinearLayout
-            android:id="@+id/conneted_players_lobby"
+            android:id="@+id/connected_players_lobby"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />

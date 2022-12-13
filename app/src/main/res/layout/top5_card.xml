@@ -94,7 +94,7 @@
             android:paddingEnd="10dp"
             android:text="@string/points_placeholder"
             android:textColor="#C1C1C1"
-            android:textSize="16dp" />
+            android:textSize="16dp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

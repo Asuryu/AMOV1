@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import android.widget.TextView
+import org.w3c.dom.Text
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.ServerSocket
@@ -22,6 +23,7 @@ class MultiplayerLobby : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var button: Button
 
+    private var connectedPlayers = 0
     private var socket: Socket? = null
     private val socketI: InputStream?
         get() = socket?.getInputStream()
@@ -114,7 +116,7 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
-    fun connectToServer(ip: String){
+    fun connectToServer(ip: String) {
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
@@ -126,7 +128,7 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
-    fun startServer(){
+    fun startServer() {
         val wifiManager = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
         val ip = wifiManager.connectionInfo.ipAddress
         val strIpAddress = String.format(
@@ -138,9 +140,9 @@ class MultiplayerLobby : AppCompatActivity() {
         )
         binding.serverIpLobby.text = strIpAddress
 
-        if(serverSocket != null || socket != null) return
+        if (serverSocket != null || socket != null) return
 
-        val linearLayout = findViewById<LinearLayout>(binding.connetedPlayersLobby.id)
+        val linearLayout = findViewById<LinearLayout>(binding.connectedPlayersLobby.id)
         linearLayout.removeAllViews()
 
         thread {
@@ -149,22 +151,44 @@ class MultiplayerLobby : AppCompatActivity() {
                 try {
                     val socketClient = serverSocket!!.accept()
                     Log.i("Asuryu", "Client connected")
+                    // TODO: Read json from client and send correct args
+                    addCard(linearLayout, connectedPlayers, "Jogador", "avatar.jpg")
+                    connectedPlayers++
                 } catch (_: Exception) {
                     serverSocket?.close()
                     serverSocket = null
-                    Intent (this@MultiplayerLobby, MainActivity::class.java).apply {
+                    Intent(this@MultiplayerLobby, MainActivity::class.java).apply {
                         startActivity(this)
                     }
+                } finally {
+                    serverSocket?.close()
+                    serverSocket = null
                 }
             }
         }
     }
 
-    fun startComm(newSocket: Socket){
+    private fun addCard(linearLayout: LinearLayout?, connectedPlayers: Int, s: String, s1: String) {
+        val player_card = layoutInflater.inflate(R.layout.top5_card, null)
+        val playerNumber = player_card.findViewById<TextView>(R.id.top_hashtag)
+        val playerName = player_card.findViewById<TextView>(R.id.player_name_top5)
+        val playerAvatar = player_card.findViewById<ImageView>(R.id.player_avatar_top5)
+        playerNumber.text = connectedPlayers.toString()
+        playerName.text = s
+        //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
+        linearLayout?.addView(player_card)
+    }
+
+    fun startComm(newSocket: Socket) {
         if (threadComm != null)
             return
 
         socket = newSocket
     }
 
+    fun stopServer() {
+        serverSocket?.close()
+        serverSocket = null
+    }
 }
+

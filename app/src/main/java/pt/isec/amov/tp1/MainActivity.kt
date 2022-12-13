@@ -8,9 +8,6 @@ import androidx.appcompat.content.res.AppCompatResources
 import pt.isec.amov.tp1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-
-
     lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
