@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/adneue_bold"
-        android:text="Leaderboard"
+        android:text="@string/leaderboard"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         android:fontFamily="@font/adineue_regular"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="Aqui podes encontrar o top 5 de melhores jogadores "
+        android:text="@string/aqui_podes_encontrar_o_top_5_de_melhores_jogadores"
         android:textAlignment="center"
         android:textColor="#B5B5B5"
         android:textSize="16sp"
@@ -77,7 +77,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="168dp"
         android:fontFamily="@font/adneue_bold"
-        android:text="Points"
+        android:text="@string/points"
         android:textColor="#FF9800"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +104,7 @@
             android:layout_weight="1"
             android:backgroundTint="#FF5722"
             android:enabled="false"
-            android:text="By Points"
+            android:text="@string/by_points"
             app:icon="@drawable/points" />
 
         <Button
@@ -114,7 +114,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:backgroundTint="#FF9800"
-            android:text="By Time"
+            android:text="@string/by_time"
             app:icon="@drawable/clock" />
 
     </LinearLayout>

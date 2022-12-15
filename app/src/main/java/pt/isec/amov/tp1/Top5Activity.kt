@@ -49,7 +49,7 @@ class Top5Activity : AppCompatActivity() {
     }
 
     fun getTop5ByPoints(){
-        binding.typeTop5.text = "Points"
+        binding.typeTop5.text = getString(R.string.points)
         binding.byPointsBtn.isEnabled = false
         binding.byTimeBtn.isEnabled = true
         val linearLayout = findViewById<LinearLayout>(binding.cardWrapperTop5.id)
@@ -81,7 +81,7 @@ class Top5Activity : AppCompatActivity() {
     }
 
     fun getTop5ByTime(){
-        binding.typeTop5.text = "Time"
+        binding.typeTop5.text = getString(R.string.time)
         binding.byPointsBtn.isEnabled = true
         binding.byTimeBtn.isEnabled = false
         val linearLayout = findViewById<LinearLayout>(binding.cardWrapperTop5.id)

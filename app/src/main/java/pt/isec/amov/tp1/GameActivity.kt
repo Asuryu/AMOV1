@@ -49,6 +49,8 @@ class GameActivity : AppCompatActivity(){
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val mode = intent.getIntExtra("mode", 0) // 0 - multiplayer, 1 - singleplayer
+
         if(loadImage(this, "avatar.jpg") != null){
             val drawable = BitmapDrawable(resources, loadImage(this, "avatar.jpg"))
             binding.playerAvatarIngame.setImageDrawable(drawable)

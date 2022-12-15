@@ -116,6 +116,16 @@ class MultiplayerLobby : AppCompatActivity() {
 
             dlg?.show()
         }
+
+        binding.startGameBtnLobby.setOnClickListener {
+            if(connectedPlayers >= 1) {
+                val intent = Intent(this, GameActivity::class.java)
+                intent.putExtra("mode", SERVER_MODE)
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "You need more players to start the game", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun connectToServer(ip: String) {
