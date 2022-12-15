@@ -161,15 +161,22 @@ class MultiplayerLobby : AppCompatActivity() {
             serverSocket = ServerSocket(SERVER_PORT)
             serverSocket?.run {
                 try {
-                    val socketClient = serverSocket!!.accept()
-                    Log.i("Asuryu", "Client connected")
-                    Runnable {
-                        val cardView = layoutInflater.inflate(R.layout.top5_card, null)
-                        val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
-                        textView.text = "Player ${connectedPlayers}"
-                        linearLayout.addView(cardView)
+                    while (true) {
+                        socket = accept()
+                        Log.d(TAG, "Connected to client")
                         connectedPlayers++
-                    }.run()
+                        runOnUiThread {
+                            val cardView = layoutInflater.inflate(R.layout.top5_card, null)
+                            val hashtag = cardView.findViewById<TextView>(R.id.top_hashtag)
+                            val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
+                            val pontos = cardView.findViewById<TextView>(R.id.player_points_top5)
+                            pontos.visibility = View.INVISIBLE
+                            hashtag.text = "#${connectedPlayers}"
+                            textView.text = getString(R.string.jogadorMp, connectedPlayers)
+
+                            linearLayout.addView(cardView)
+                        }
+                    }
                 } catch (_: Exception) {
                     serverSocket?.close()
                     serverSocket = null
