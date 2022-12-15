@@ -92,7 +92,6 @@ class MultiplayerLobby : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         )
                             .show()
-                        //finish()
                     } else {
                         connectToServer(strIP)
                     }
