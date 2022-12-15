@@ -26,7 +26,7 @@ class MultiplayerLobby : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var button: Button
 
-    private var connectedPlayers = 0
+    private var connectedPlayers : ArrayList<Socket> = ArrayList()
     private var socket: Socket? = null
     private val socketI: InputStream?
         get() = socket?.getInputStream()
@@ -108,9 +108,10 @@ class MultiplayerLobby : AppCompatActivity() {
         }
 
         binding.startGameBtnLobby.setOnClickListener {
-            if(connectedPlayers >= 1) {
+            if(connectedPlayers.size >= 1) {
                 val intent = Intent(this, GameActivity::class.java)
                 intent.putExtra("mode", SERVER_MODE)
+                intent.putExtra("sockets", connectedPlayers)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "You need more players to start the game", Toast.LENGTH_SHORT).show()
@@ -130,7 +131,6 @@ class MultiplayerLobby : AppCompatActivity() {
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
-                connectedPlayers++
                 Log.d(TAG, "Connected to server")
                 runOnUiThread {
                     binding.serverIpLobby.text = ip
@@ -171,15 +171,15 @@ class MultiplayerLobby : AppCompatActivity() {
                     while (true) {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
-                        connectedPlayers++
+                        connectedPlayers.add(socket!!)
                         runOnUiThread {
                             val cardView = layoutInflater.inflate(R.layout.top5_card, null)
                             val hashtag = cardView.findViewById<TextView>(R.id.top_hashtag)
                             val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
                             val pontos = cardView.findViewById<TextView>(R.id.player_points_top5)
                             pontos.visibility = View.INVISIBLE
-                            hashtag.text = "#${connectedPlayers}"
-                            textView.text = getString(R.string.jogadorMp, connectedPlayers)
+                            hashtag.text = "#${connectedPlayers.size}"
+                            textView.text = getString(R.string.jogadorMp, connectedPlayers.size)
 
                             linearLayout.addView(cardView)
                         }
