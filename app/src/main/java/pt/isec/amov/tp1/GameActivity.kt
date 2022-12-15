@@ -24,7 +24,7 @@ class GameActivity : AppCompatActivity(){
 
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
-    var isMultiplayer : Boolean = true
+    var isMultiplayer : Boolean = false
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()

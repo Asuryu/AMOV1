@@ -1,6 +1,7 @@
 package pt.isec.amov.tp1
 
 import android.content.*
+import android.graphics.Color
 import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import android.widget.TextView
 import com.google.api.Distribution.BucketOptions.Linear
+import org.json.JSONObject
 import org.w3c.dom.Text
 import java.io.InputStream
 import java.io.OutputStream
@@ -129,10 +131,16 @@ class MultiplayerLobby : AppCompatActivity() {
     }
 
     fun connectToServer(ip: String) {
+        var jsonOut = JSONObject()
+        jsonOut.put("type", "connect")
+        jsonOut.put("name", getUsername(this))
+        jsonOut.put("avatar", "avatar.jpg")
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
+                socketO?.write(jsonOut.toString().toByteArray())
+                socketO?.flush()
             } catch (e: Exception) {
                 Log.e(TAG, "Error connecting to server", e)
                 finish()
@@ -165,16 +173,25 @@ class MultiplayerLobby : AppCompatActivity() {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
                         connectedPlayers++
+                        val jsonIn = JSONObject(socketI?.bufferedReader()?.readLine())
+                        val name = jsonIn.getString("name")
+                        val avatar = jsonIn.getString("avatar")
+                        val type = jsonIn.getString("type")
+                        if (type == "connect") {
+                            val textView = TextView(this@MultiplayerLobby)
+                            textView.text = name
+                            textView.textSize = 20F
+                            textView.setTextColor(Color.WHITE)
+                            linearLayout.addView(textView)
+                            val jsonOut = JSONObject()
+                            jsonOut.put("type", "connect")
+                            jsonOut.put("name", getUsername(this@MultiplayerLobby))
+                            jsonOut.put("avatar", "avatar.jpg")
+                            socketO?.write(jsonOut.toString().toByteArray())
+                            socketO?.flush()
+                        }
                         runOnUiThread {
-                            val cardView = layoutInflater.inflate(R.layout.top5_card, null)
-                            val hashtag = cardView.findViewById<TextView>(R.id.top_hashtag)
-                            val textView = cardView.findViewById<TextView>(R.id.player_name_top5)
-                            val pontos = cardView.findViewById<TextView>(R.id.player_points_top5)
-                            pontos.visibility = View.INVISIBLE
-                            hashtag.text = "#${connectedPlayers}"
-                            textView.text = getString(R.string.jogadorMp, connectedPlayers)
-
-                            linearLayout.addView(cardView)
+                            addCard(linearLayout, connectedPlayers, getString(R.string.jogadorMp, connectedPlayers))
                         }
                     }
                 } catch (_: Exception) {
@@ -191,14 +208,14 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
-    private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String, s1: String) {
+    private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String) {
         val playerCard = layoutInflater.inflate(R.layout.top5_card, null)
         val playerNumber = playerCard.findViewById<TextView>(R.id.top_hashtag)
         val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
         val playerAvatar = playerCard.findViewById<ImageView>(R.id.player_avatar_top5)
         val playerPoints = playerCard.findViewById<TextView>(R.id.player_points_top5)
         playerPoints.visibility = View.INVISIBLE
-        playerNumber.text = connectedPlayers.toString()
+        playerNumber.text = "#$connectedPlayers"
         playerName.text = s
         //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
         linearLayout.addView(playerCard)
