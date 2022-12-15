@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -447,8 +448,9 @@ class GameActivity : AppCompatActivity(){
         }
 
         if(isMultiplayer){
+            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            frameLayout.visibility = View.VISIBLE
             val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
-
             for(i in 0 until 20){
                 addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
             }

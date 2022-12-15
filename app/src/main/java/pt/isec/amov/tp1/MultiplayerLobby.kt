@@ -129,7 +129,6 @@ class MultiplayerLobby : AppCompatActivity() {
 
     fun connectToServer(ip: String) {
         var jsonOut = JSONObject()
-        jsonOut.put("type", "connect")
         jsonOut.put("name", getUsername(this))
         jsonOut.put("avatar", "avatar.jpg")
         Log.d(TAG, "connectToServer($ip)")
@@ -178,27 +177,18 @@ class MultiplayerLobby : AppCompatActivity() {
                     while (true) {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
-                        connectedPlayers++
+                        connectedPlayers.add(socket!!)
                         val jsonIn = JSONObject(socketI?.bufferedReader()?.readLine())
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
-                        val type = jsonIn.getString("type")
-                        if (type == "connect") {
-                            val textView = TextView(this@MultiplayerLobby)
-                            textView.text = name
-                            textView.textSize = 20F
-                            textView.setTextColor(Color.WHITE)
-                            linearLayout.addView(textView)
-                            val jsonOut = JSONObject()
-                            jsonOut.put("type", "connect")
-                            jsonOut.put("name", getUsername(this@MultiplayerLobby))
-                            jsonOut.put("avatar", "avatar.jpg")
-                            socketO?.write(jsonOut.toString().toByteArray())
-                            socketO?.flush()
-                        }
                         runOnUiThread {
-                            addCard(linearLayout, connectedPlayers, getString(R.string.jogadorMp, connectedPlayers))
-                        connectedPlayers.add(socket!!)
+                            addCard(
+                                linearLayout,
+                                connectedPlayers.size,
+                                name,
+                                avatar
+                            )
+                        }
                     }
                 } catch (_: Exception) {
                     serverSocket?.close()
@@ -214,7 +204,7 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
-    private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String) {
+    private fun addCard(linearLayout: LinearLayout, connectedPlayers: Int, s: String, avatar: String) {
         val playerCard = layoutInflater.inflate(R.layout.top5_card, null)
         val playerNumber = playerCard.findViewById<TextView>(R.id.top_hashtag)
         val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
