@@ -43,8 +43,7 @@
             android:layout_margin="0dp"
             android:layout_marginBottom="540dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/rounded_box"
-            android:backgroundTint="#FF9800"
+            android:background="@drawable/untitled_1"
             android:clipToOutline="true"
             android:padding="5dp"
             android:scaleType="centerCrop"
@@ -54,9 +53,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.19"
             app:shapeAppearanceOverlay="@style/roundimageview"
+            app:srcCompat="@drawable/untitled_1"
             app:strokeColor="#FF9800"
             app:strokeWidth="3dp"
-            tools:srcCompat="@tools:sample/avatars"
             tools:targetApi="s" />
 
         <LinearLayout

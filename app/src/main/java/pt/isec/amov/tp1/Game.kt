@@ -16,7 +16,7 @@ class Game : java.io.Serializable{
     var board : ArrayList<ArrayList<String>> = ArrayList()
     var expressions : HashMap<String, Int> = HashMap()
 
-    val GAME_TIME = 120000L
+    val GAME_TIME = 10000L
     var level : Int = 0
     var points : Int = 0
     var minRange : Int = 1
