@@ -119,6 +119,13 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        socket?.close()
+        serverSocket?.close()
+        threadComm?.interrupt()
+        finish()
+    }
+
     fun connectToServer(ip: String) {
         Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
