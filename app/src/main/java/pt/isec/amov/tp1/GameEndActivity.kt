@@ -1,6 +1,8 @@
 package pt.isec.amov.tp1
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -18,15 +20,20 @@ import androidx.core.view.setMargins
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import pt.isec.amov.tp1.databinding.ActivityGameEndMpBinding
 import pt.isec.amov.tp1.databinding.ActivityGameEndSpBinding
+import java.io.ByteArrayOutputStream
 
 class GameEndActivity : AppCompatActivity() {
     private lateinit var bindingSP : ActivityGameEndSpBinding
     private lateinit var bindingMP : ActivityGameEndMpBinding
 
+    val storage : FirebaseStorage = FirebaseStorage.getInstance("gs://amov1-gps.appspot.com/")
+
     val db = Firebase.firestore
 
+    @SuppressLint("WrongThread")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +57,24 @@ class GameEndActivity : AppCompatActivity() {
                                     "playerTopTime" to totalGameTime,
                                 )
                             )
+                        // get document id
+                        db.collection("top5")
+                            .whereEqualTo("playerName", username)
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                for (document in documents) {
+                                    if(loadImage(this, "avatar.jpg") != null){
+                                        val image = loadImage(this)
+                                        val baos = ByteArrayOutputStream()
+                                        image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                        val data = baos.toByteArray()
+                                        val storageRef = storage.reference
+                                        val imageRef = storageRef.child("avatars/${document.id}.jpg")
+                                        imageRef.putBytes(data)
+                                    }
+                                }
+                            }
+
                     } else {
                         for(document in it){
                             val currentPoints = document.data["playerPoints"] as Long
@@ -64,11 +89,19 @@ class GameEndActivity : AppCompatActivity() {
                                     .document(document.id)
                                     .update("playerTopTime", totalGameTime)
                             }
+                            if(loadImage(this, "avatar.jpg") != null){
+                                val image = loadImage(this)
+                                val baos = ByteArrayOutputStream()
+                                image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                                val data = baos.toByteArray()
+                                val storageRef = storage.reference
+                                val imageRef = storageRef.child("avatars/${document.id}.jpg")
+                                imageRef.putBytes(data)
+                            }
                         }
                     }
                 }
         }
-
 
         if (isMultiplayer) {
             bindingMP = ActivityGameEndMpBinding.inflate(layoutInflater)
@@ -138,4 +171,11 @@ class GameEndActivity : AppCompatActivity() {
         tvPoints.text = playerPoints
         linearLayout?.addView(card)
     }
+
+        fun getRandomString(length: Int) : String {
+            val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+            return (1..length)
+                .map { allowedChars.random() }
+                .joinToString("")
+        }
 }
