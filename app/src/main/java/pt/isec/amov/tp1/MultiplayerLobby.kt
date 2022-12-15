@@ -178,7 +178,7 @@ class MultiplayerLobby : AppCompatActivity() {
                     while (true) {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
-                        connectedPlayers++
+                        connectedPlayers.add(socket!!)
                         val jsonIn = JSONObject(socketI?.bufferedReader()?.readLine())
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
@@ -197,8 +197,8 @@ class MultiplayerLobby : AppCompatActivity() {
                             socketO?.flush()
                         }
                         runOnUiThread {
-                            addCard(linearLayout, connectedPlayers, getString(R.string.jogadorMp, connectedPlayers))
-                        connectedPlayers.add(socket!!)
+                            addCard(linearLayout, connectedPlayers.size, getString(R.string.jogadorMp, connectedPlayers.size))
+                        }
                     }
                 } catch (_: Exception) {
                     serverSocket?.close()
