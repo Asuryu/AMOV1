@@ -189,6 +189,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="#FF5722"
+        android:clickable="true"
+        android:enabled="true"
         android:text="@string/connect_to_server"
         android:textColor="#FFFFFF"
         app:icon="@drawable/ic_videogame_asset_24"

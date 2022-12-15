@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import pt.isec.amov.tp1.databinding.ActivityMultiplayerLobbyBinding
 import android.widget.TextView
 import com.google.api.Distribution.BucketOptions.Linear
+import org.json.JSONObject
 import org.w3c.dom.Text
 import java.io.InputStream
 import java.io.OutputStream
@@ -49,14 +50,7 @@ class MultiplayerLobby : AppCompatActivity() {
         binding = ActivityMultiplayerLobbyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val ip = intent.getStringExtra("ip")
-        if (ip != null) {
-            Toast.makeText(this, "IP: $ip", Toast.LENGTH_SHORT).show()
-            connectToServer(ip)
-        } else {
-            startServer()
-        }
-
+        startServer()
 
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         binding.copyToClipboardBtn.setOnClickListener() {
@@ -100,10 +94,7 @@ class MultiplayerLobby : AppCompatActivity() {
                             .show()
                         //finish()
                     } else {
-                        // TODO: fechar o nosso servidor
-                        val intent = Intent(this, MultiplayerLobby::class.java)
-                        intent.putExtra("ip", strIP)
-                        startActivity(intent)
+                        connectToServer(strIP)
                     }
                 }
 
@@ -129,13 +120,23 @@ class MultiplayerLobby : AppCompatActivity() {
     }
 
     fun connectToServer(ip: String) {
+        Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
+                connectedPlayers++
                 Log.d(TAG, "Connected to server")
+                runOnUiThread {
+                    binding.serverIpLobby.text = ip
+                    binding.connectToServerBtn.visibility = View.GONE
+                    binding.startGameBtnLobby.visibility = View.GONE
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Error connecting to server", e)
-                finish()
+                runOnUiThread {
+                    Toast.makeText(this, "Error connecting to server", Toast.LENGTH_SHORT).show()
+                    //finish()
+                }
             }
         }
     }
