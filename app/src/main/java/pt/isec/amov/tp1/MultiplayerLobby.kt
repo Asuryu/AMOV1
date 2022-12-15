@@ -27,7 +27,7 @@ class MultiplayerLobby : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var button: Button
 
-    private var connectedPlayers = 0
+    private var connectedPlayers : ArrayList<Socket> = ArrayList()
     private var socket: Socket? = null
     private val socketI: InputStream?
         get() = socket?.getInputStream()
@@ -51,14 +51,7 @@ class MultiplayerLobby : AppCompatActivity() {
         binding = ActivityMultiplayerLobbyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val ip = intent.getStringExtra("ip")
-        if (ip != null) {
-            Toast.makeText(this, "IP: $ip", Toast.LENGTH_SHORT).show()
-            connectToServer(ip)
-        } else {
-            startServer()
-        }
-
+        startServer()
 
         val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         binding.copyToClipboardBtn.setOnClickListener() {
@@ -100,12 +93,8 @@ class MultiplayerLobby : AppCompatActivity() {
                             Toast.LENGTH_LONG
                         )
                             .show()
-                        //finish()
                     } else {
-                        // TODO: fechar o nosso servidor
-                        val intent = Intent(this, MultiplayerLobby::class.java)
-                        intent.putExtra("ip", strIP)
-                        startActivity(intent)
+                        connectToServer(strIP)
                     }
                 }
 
@@ -120,9 +109,10 @@ class MultiplayerLobby : AppCompatActivity() {
         }
 
         binding.startGameBtnLobby.setOnClickListener {
-            if(connectedPlayers >= 1) {
+            if(connectedPlayers.size >= 1) {
                 val intent = Intent(this, GameActivity::class.java)
                 intent.putExtra("mode", SERVER_MODE)
+                intent.putExtra("sockets", connectedPlayers)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, "You need more players to start the game", Toast.LENGTH_SHORT).show()
@@ -130,20 +120,36 @@ class MultiplayerLobby : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        socket?.close()
+        serverSocket?.close()
+        threadComm?.interrupt()
+        finish()
+    }
+
     fun connectToServer(ip: String) {
         var jsonOut = JSONObject()
         jsonOut.put("type", "connect")
         jsonOut.put("name", getUsername(this))
         jsonOut.put("avatar", "avatar.jpg")
+        Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
                 socketO?.write(jsonOut.toString().toByteArray())
                 socketO?.flush()
+                runOnUiThread {
+                    binding.serverIpLobby.text = ip
+                    binding.connectToServerBtn.visibility = View.GONE
+                    binding.startGameBtnLobby.visibility = View.GONE
+                }
             } catch (e: Exception) {
                 Log.e(TAG, "Error connecting to server", e)
-                finish()
+                runOnUiThread {
+                    Toast.makeText(this, "Error connecting to server", Toast.LENGTH_SHORT).show()
+                    //finish()
+                }
             }
         }
     }
@@ -192,7 +198,7 @@ class MultiplayerLobby : AppCompatActivity() {
                         }
                         runOnUiThread {
                             addCard(linearLayout, connectedPlayers, getString(R.string.jogadorMp, connectedPlayers))
-                        }
+                        connectedPlayers.add(socket!!)
                     }
                 } catch (_: Exception) {
                     serverSocket?.close()
