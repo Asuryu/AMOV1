@@ -1,10 +1,12 @@
 package pt.isec.amov.tp1
 
 import android.content.*
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.wifi.WifiManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -130,7 +132,11 @@ class MultiplayerLobby : AppCompatActivity() {
     fun connectToServer(ip: String) {
         var jsonOut = JSONObject()
         jsonOut.put("name", getUsername(this))
-        jsonOut.put("avatar", "avatar.jpg")
+        //get the avatar and convert it to a string
+        val avatar = loadImage(this, "avatar.jpg")
+        if (avatar != null) {
+            jsonOut.put("avatar", avatar.toString())
+        }
         Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
             try {
@@ -215,7 +221,13 @@ class MultiplayerLobby : AppCompatActivity() {
         playerPoints.visibility = View.INVISIBLE
         playerNumber.text = "#$connectedPlayers"
         playerName.text = s
-        //playerAvatar.setImageBitmap(loadImage(this, s1)) // TODO: Read from json
+        if (avatar != "null") {
+            val decodedString: ByteArray = Base64.decode(avatar, Base64.DEFAULT)
+            val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+            playerAvatar.setImageBitmap(decodedByte)
+        } else {
+            playerAvatar.setImageDrawable(getDrawable(R.drawable.untitled_1))
+        }
         linearLayout.addView(playerCard)
     }
 
