@@ -178,7 +178,9 @@ class MultiplayerLobby : AppCompatActivity() {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
                         connectedPlayers.add(socket!!)
-                        val jsonIn = JSONObject(socketI?.bufferedReader()?.readLine())
+                        val byteArray = ByteArray(124000)
+                        socketI?.read(byteArray)
+                        val jsonIn = JSONObject(String(byteArray))
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
                         runOnUiThread {
