@@ -454,6 +454,9 @@ class GameActivity : AppCompatActivity(){
             for(i in 0 until 20){
                 addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
             }
+        } else {
+            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            frameLayout.visibility = View.GONE
         }
     }
 
