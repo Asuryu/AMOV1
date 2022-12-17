@@ -150,11 +150,8 @@ class MultiplayerLobby : AppCompatActivity() {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
                 var data = jsonOut.toString()
-                // send 4000 bytes at a time to the server
-                for(i in 0..data.length step 4000) {
-                    socketO?.write(data.substring(i, i+4000).toByteArray())
-                }
-                socketO?.flush()
+                val buffer = ByteArray(1240000)
+                socketO?.write(data.toByteArray())
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
                     binding.serverIpLobby.text = ip
@@ -199,14 +196,17 @@ class MultiplayerLobby : AppCompatActivity() {
                         // receive data from client
                         var inputStream = socket?.getInputStream()
                         var outputStream = socket?.getOutputStream()
+
                         val buffer = ByteArray(1240000)
-                        // read 4000 bytes from the client until it finishes sending
-                        var data = ""
-                        while (inputStream?.read(buffer) != -1) {
-                            data += String(buffer)
-                            Log.i(TAG, "Received data from client: $data")
+                        // read until it receives 0 bytes
+                        var bytesRead = inputStream?.read(buffer)
+                        var data = String(buffer, 0, bytesRead!!)
+                        while(bytesRead != 0) {
+                            bytesRead = inputStream?.read(buffer)
+                            data += String(buffer, 0, bytesRead!!)
                         }
-                        //Log.d(TAG, "Received data from client: $data")
+                        Log.d(TAG, "Received data from client: $data")
+
                         val jsonIn = JSONObject(data)
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
