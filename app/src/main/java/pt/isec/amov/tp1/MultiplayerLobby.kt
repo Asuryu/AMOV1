@@ -1,6 +1,7 @@
 package pt.isec.amov.tp1
 
 import android.content.*
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.wifi.WifiManager
@@ -17,6 +18,7 @@ import android.widget.TextView
 import com.google.api.Distribution.BucketOptions.Linear
 import org.json.JSONObject
 import org.w3c.dom.Text
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.ServerSocket
@@ -98,8 +100,9 @@ class MultiplayerLobby : AppCompatActivity() {
                     }
                 }
 
-                .setNegativeButton(R.string.button_cancel) { _: DialogInterface, _: Int ->
-                    finish()
+                .setNegativeButton(R.string.button_cancel) { d: DialogInterface, _: Int ->
+                    // close dialog
+                    d.dismiss()
                 }
                 .setCancelable(false)
                 .setView(edtBox)
@@ -108,7 +111,7 @@ class MultiplayerLobby : AppCompatActivity() {
             dlg?.show()
         }
 
-        binding.startGameBtnLobby.setOnClickListener {
+        binding.startgamelobby.setOnClickListener {
             if(connectedPlayers.size >= 1) {
                 val intent = Intent(this, GameActivity::class.java)
                 intent.putExtra("mode", SERVER_MODE)
@@ -133,7 +136,13 @@ class MultiplayerLobby : AppCompatActivity() {
         //get the avatar and convert it to a string
         val avatar = loadImage(this, "avatar.jpg")
         if (avatar != null) {
-            jsonOut.put("avatar", avatar.toString())
+            val stream = ByteArrayOutputStream()
+            avatar.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val byteArray = stream.toByteArray()
+            val encoded = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            jsonOut.put("avatar", encoded)
+        } else {
+            jsonOut.put("avatar", "")
         }
         Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
@@ -145,7 +154,7 @@ class MultiplayerLobby : AppCompatActivity() {
                 runOnUiThread {
                     binding.serverIpLobby.text = ip
                     binding.connectToServerBtn.visibility = View.GONE
-                    binding.startGameBtnLobby.visibility = View.GONE
+                    binding.startgamelobby.visibility = View.GONE
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error connecting to server", e)
@@ -179,12 +188,15 @@ class MultiplayerLobby : AppCompatActivity() {
             serverSocket?.run {
                 try {
                     while (true) {
-                        val socketClient = serverSocket!!.accept()
+                        socket = accept()
                         Log.d(TAG, "Connected to client")
-                        connectedPlayers.add(socketClient)
-                        val byteArray = ByteArray(124000)
-                        socketI?.read(byteArray)
-                        val jsonIn = JSONObject(String(byteArray))
+                        connectedPlayers.add(socket!!)
+                        // receive data from client
+                        var inputStream = socket?.getInputStream()
+                        var outputStream = socket?.getOutputStream()
+                        val buffer = ByteArray(4096)
+                        var bytes = inputStream?.read(buffer)
+                        val jsonIn = JSONObject(String(buffer, 0, bytes!!))
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
                         runOnUiThread {
@@ -195,9 +207,10 @@ class MultiplayerLobby : AppCompatActivity() {
                                 avatar
                             )
                         }
-                        startComm(socketClient)
+                        //startComm(socket!!)
                     }
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    e.printStackTrace()
                     serverSocket?.close()
                     serverSocket = null
                     Intent(this@MultiplayerLobby, MainActivity::class.java).apply {

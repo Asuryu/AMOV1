@@ -165,7 +165,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/startGameBtn_lobby"
+        android:id="@+id/startgamelobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -197,7 +197,7 @@
         app:iconGravity="textStart"
         app:iconSize="30dp"
         app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/startGameBtn_lobby"
+        app:layout_constraintBottom_toTopOf="@+id/startgamelobby"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent" />
