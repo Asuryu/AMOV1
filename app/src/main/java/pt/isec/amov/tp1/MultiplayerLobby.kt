@@ -149,8 +149,13 @@ class MultiplayerLobby : AppCompatActivity() {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
-                socketO?.write(jsonOut.toString().toByteArray())
+                // write 4000 bytes to the server until it finishes sending
+                var buffer = jsonOut.toString().toByteArray()
+                for (i in 0..buffer.size / 4000) {
+                    socketO?.write(buffer, i * 4000, 4000)
+                }
                 socketO?.flush()
+                Log.d(TAG, "Sent data to server")
                 runOnUiThread {
                     binding.serverIpLobby.text = ip
                     binding.connectToServerBtn.visibility = View.GONE
@@ -194,9 +199,14 @@ class MultiplayerLobby : AppCompatActivity() {
                         // receive data from client
                         var inputStream = socket?.getInputStream()
                         var outputStream = socket?.getOutputStream()
-                        val buffer = ByteArray(4096)
-                        var bytes = inputStream?.read(buffer)
-                        val jsonIn = JSONObject(String(buffer, 0, bytes!!))
+                        val buffer = ByteArray(4000)
+                        // read 4000 bytes from the client until it finishes sending
+                        var data = ""
+                        while (inputStream?.read(buffer) != -1) {
+                            data += String(buffer)
+                        }
+                        Log.d(TAG, "Received data from client: $data")
+                        val jsonIn = JSONObject(data)
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
                         runOnUiThread {
