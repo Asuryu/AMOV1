@@ -150,12 +150,10 @@ class MultiplayerLobby : AppCompatActivity() {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
                 var data = jsonOut.toString()
-                // write 4000 bytes at a time
-                while (data.length > 4000) {
-                    socketO?.write(data.substring(0, 4000).toByteArray())
-                    data = data.substring(4000)
+                // send 4000 bytes at a time to the server
+                for(i in 0..data.length step 4000) {
+                    socketO?.write(data.substring(i, i+4000).toByteArray())
                 }
-                socketO?.write(data.toByteArray())
                 socketO?.flush()
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
@@ -201,13 +199,14 @@ class MultiplayerLobby : AppCompatActivity() {
                         // receive data from client
                         var inputStream = socket?.getInputStream()
                         var outputStream = socket?.getOutputStream()
-                        val buffer = ByteArray(4000)
+                        val buffer = ByteArray(1240000)
                         // read 4000 bytes from the client until it finishes sending
                         var data = ""
                         while (inputStream?.read(buffer) != -1) {
                             data += String(buffer)
+                            Log.i(TAG, "Received data from client: $data")
                         }
-                        Log.d(TAG, "Received data from client: $data")
+                        //Log.d(TAG, "Received data from client: $data")
                         val jsonIn = JSONObject(data)
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
@@ -242,7 +241,7 @@ class MultiplayerLobby : AppCompatActivity() {
         val playerName = playerCard.findViewById<TextView>(R.id.player_name_top5)
         val playerAvatar = playerCard.findViewById<ImageView>(R.id.player_avatar_top5)
         val playerPoints = playerCard.findViewById<TextView>(R.id.player_points_top5)
-        playerPoints.visibility = View.INVISIBLE
+        playerPoints.visibility = View.GONE
         playerNumber.text = "#$connectedPlayers"
         playerName.text = s
         if (avatar != "null") {
