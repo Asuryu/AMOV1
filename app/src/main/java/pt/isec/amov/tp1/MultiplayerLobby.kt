@@ -18,9 +18,7 @@ import android.widget.TextView
 import com.google.api.Distribution.BucketOptions.Linear
 import org.json.JSONObject
 import org.w3c.dom.Text
-import java.io.ByteArrayOutputStream
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 import java.net.ServerSocket
 import java.net.Socket
 import kotlin.concurrent.thread
@@ -149,18 +147,7 @@ class MultiplayerLobby : AppCompatActivity() {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
-                var data = jsonOut.toString().toByteArray()
-                val buffer = ByteArray(1240000)
-                // send buffer size at a time
-                var i = 0
-                while (i < data.size) {
-                    val size = if (data.size - i > buffer.size) buffer.size else data.size - i
-                    System.arraycopy(data, i, buffer, 0, size)
-                    socketO?.write(buffer, 0, size)
-                    i += size
-                }
-                socketO?.flush()
-                socketO?.write(0)
+                socketO?.write((jsonOut.toString() + "\n").toByteArray())
                 socketO?.flush()
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
@@ -204,20 +191,12 @@ class MultiplayerLobby : AppCompatActivity() {
                         Log.d(TAG, "Connected to client")
                         connectedPlayers.add(socket!!)
                         // receive data from client
-                        var inputStream = socket?.getInputStream()
-                        var outputStream = socket?.getOutputStream()
-
-                        val buffer = ByteArray(1240000)
-                        // read until it receives 0 bytes
-                        var bytesRead = inputStream?.read(buffer)
-                        var data = String(buffer, 0, bytesRead!!)
-                        while(bytesRead != 0) {
-                            bytesRead = inputStream?.read(buffer)
-                            data += String(buffer, 0, bytesRead!!)
-                        }
-                        Log.d(TAG, "Received data from client: $data")
-
-                        val jsonIn = JSONObject(data)
+                        var recvSocketI = socket?.getInputStream()
+                        var recvSocketO = socket?.getOutputStream()
+                        // read data from client
+                        var recvData = recvSocketI?.readBytes()
+                        var recvStr = String(recvData!!)
+                        var jsonIn = JSONObject(recvStr)
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
                         runOnUiThread {
