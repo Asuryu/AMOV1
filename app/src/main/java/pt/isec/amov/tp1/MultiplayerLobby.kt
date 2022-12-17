@@ -149,9 +149,19 @@ class MultiplayerLobby : AppCompatActivity() {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
-                var data = jsonOut.toString()
+                var data = jsonOut.toString().toByteArray()
                 val buffer = ByteArray(1240000)
-                socketO?.write(data.toByteArray())
+                // send buffer size at a time
+                var i = 0
+                while (i < data.size) {
+                    val size = if (data.size - i > buffer.size) buffer.size else data.size - i
+                    System.arraycopy(data, i, buffer, 0, size)
+                    socketO?.write(buffer, 0, size)
+                    i += size
+                }
+                socketO?.flush()
+                socketO?.write(0)
+                socketO?.flush()
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
                     binding.serverIpLobby.text = ip
