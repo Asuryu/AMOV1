@@ -131,23 +131,20 @@ class MultiplayerLobby : AppCompatActivity() {
     fun connectToServer(ip: String) {
         var jsonOut = JSONObject()
         jsonOut.put("name", getUsername(this))
-        //get the avatar and convert it to a string
+        //get the avatar and convert it to base64
         val avatar = loadImage(this, "avatar.jpg")
-        if (avatar != null) {
-            val stream = ByteArrayOutputStream()
-            avatar.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
-            val encoded = Base64.encodeToString(byteArray, Base64.DEFAULT)
-            jsonOut.put("avatar", encoded)
-        } else {
-            jsonOut.put("avatar", "")
-        }
+        val stream = ByteArrayOutputStream()
+        avatar?.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val byteArray = stream.toByteArray()
+        val avatarBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
+        jsonOut.put("avatar", avatarBase64)
         Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
-                socketO?.write((jsonOut.toString() + "\n").toByteArray())
+                // send the player info to the server (buffer size = 4096)
+                socketO?.write(jsonOut.toString().toByteArray(Charsets.UTF_8))
                 socketO?.flush()
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
@@ -190,15 +187,13 @@ class MultiplayerLobby : AppCompatActivity() {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
                         connectedPlayers.add(socket!!)
-                        // receive data from client
-                        var recvSocketI = socket?.getInputStream()
-                        var recvSocketO = socket?.getOutputStream()
-                        // read data from client
-                        var recvData = recvSocketI?.readBytes()
-                        var recvStr = String(recvData!!)
-                        var jsonIn = JSONObject(recvStr)
+                        val buffer = ByteArray(4096)
+                        val bytes = socket?.getInputStream()?.read(buffer)
+                        val jsonIn = JSONObject(String(buffer, 0, bytes!!, Charsets.UTF_8))
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
+                        Log.d(TAG, "Received data from client: $name")
+                        Log.d(TAG, "Received data from client: $avatar")
                         runOnUiThread {
                             addCard(
                                 linearLayout,
