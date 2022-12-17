@@ -27,8 +27,6 @@ class MultiplayerLobby : AppCompatActivity() {
 
     private lateinit var binding: ActivityMultiplayerLobbyBinding
     lateinit var textView: TextView
-    lateinit var button: Button
-
     private var connectedPlayers : ArrayList<Socket> = ArrayList()
     private var socket: Socket? = null
     private val socketI: InputStream?
@@ -181,9 +179,9 @@ class MultiplayerLobby : AppCompatActivity() {
             serverSocket?.run {
                 try {
                     while (true) {
-                        socket = accept()
+                        val socketClient = serverSocket!!.accept()
                         Log.d(TAG, "Connected to client")
-                        connectedPlayers.add(socket!!)
+                        connectedPlayers.add(socketClient)
                         val byteArray = ByteArray(124000)
                         socketI?.read(byteArray)
                         val jsonIn = JSONObject(String(byteArray))
@@ -197,6 +195,7 @@ class MultiplayerLobby : AppCompatActivity() {
                                 avatar
                             )
                         }
+                        startComm(socketClient)
                     }
                 } catch (_: Exception) {
                     serverSocket?.close()
@@ -234,8 +233,37 @@ class MultiplayerLobby : AppCompatActivity() {
     fun startComm(newSocket: Socket) {
         if (threadComm != null)
             return
-
         socket = newSocket
+
+        threadComm = thread {
+            try {
+                if(socketI == null){
+                    return@thread
+                }
+                while (true) {
+                    val byteArray = ByteArray(124000)
+                    socketI?.read(byteArray)
+                    val jsonIn = JSONObject(String(byteArray))
+                    val level = jsonIn.getInt("level")
+                    val score = jsonIn.getInt("score")
+                    val time = jsonIn.getInt("time")
+
+                    val jsonOut = JSONObject()
+                    jsonOut.put("level", level)
+                    jsonOut.put("score", score)
+                    jsonOut.put("time", time)
+                    socketO?.write(jsonOut.toString().toByteArray())
+                    socketO?.flush()
+                }
+            }catch (e: Exception){
+                Log.e(TAG, "Error in startComm", e)
+            }finally {
+                socket?.close()
+                socket = null
+                threadComm?.interrupt()
+                threadComm = null
+            }
+        }
     }
 
     fun stopServer() {

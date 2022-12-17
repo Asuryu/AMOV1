@@ -51,6 +51,7 @@ class GameActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         val mode = intent.getIntExtra("mode", 0) // 0 - multiplayer, 1 - singleplayer
+        if(mode == 0) { isMultiplayer = true }
 
         if(loadImage(this, "avatar.jpg") != null){
             val drawable = BitmapDrawable(resources, loadImage(this, "avatar.jpg"))
