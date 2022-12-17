@@ -149,11 +149,13 @@ class MultiplayerLobby : AppCompatActivity() {
             try {
                 socket = Socket(ip, SERVER_PORT)
                 Log.d(TAG, "Connected to server")
-                // write 4000 bytes to the server until it finishes sending
-                var buffer = jsonOut.toString().toByteArray()
-                for (i in 0..buffer.size / 4000) {
-                    socketO?.write(buffer, i * 4000, 4000)
+                var data = jsonOut.toString()
+                // write 4000 bytes at a time
+                while (data.length > 4000) {
+                    socketO?.write(data.substring(0, 4000).toByteArray())
+                    data = data.substring(4000)
                 }
+                socketO?.write(data.toByteArray())
                 socketO?.flush()
                 Log.d(TAG, "Sent data to server")
                 runOnUiThread {
