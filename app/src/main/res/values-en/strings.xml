@@ -33,11 +33,23 @@
     <string name="pontuacao">Scoreboard:</string>
     <string name="correctAnswers">%1$d/%2$d correct answers</string>
     <string name="credits">Credits</string>
-    <string name="client_mode">Client mode</string>
+    <string name="client_mode">Client Mode</string>
     <string name="ask_ip">Server IP address:</string>
     <string name="button_connect">Connect</string>
     <string name="button_cancel">Cancel</string>
     <string name="error_address">Address not recognized</string>
     <string name="ask_name">Choose your name:</string>
     <string name="credits_text">Application developed in the context of the curricular unit of Mobile Architectures of the 3rd year of the Degree in Computer Engineering at Instituto Superior de Engenharia de Coimbra</string>
+    <string name="leaderboards">Leaderboards</string>
+    <string name="msg_ip_address">Server IP address: %s[...]</string>
+    <string name="server_mode">Server Mode</string>
+    <string name="partilha_o_ip_do_servidor_com_os_teus_amigos">Share the server IP with your friends</string>
+    <string name="start_game">Start Game</string>
+    <string name="connect_to_server">Connect to Server</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="aqui_podes_encontrar_o_top_5_de_melhores_jogadores">Here you can find the top 5 players of this game</string>
+    <string name="points">Points</string>
+    <string name="by_time">By Time</string>
+    <string name="by_points">By Points</string>
+    <string name="time">Time</string>
 </resources>

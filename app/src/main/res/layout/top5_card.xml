@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:paddingTop="0dp"
+    android:paddingTop="10dp"
     android:paddingBottom="0dp"
     tools:context=".GameActivity">
 
@@ -12,7 +12,8 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/rounded_box"
         android:backgroundTint="#403F3F"
         android:orientation="horizontal"
@@ -43,8 +44,7 @@
             android:layout_margin="0dp"
             android:layout_marginBottom="540dp"
             android:adjustViewBounds="true"
-            android:background="@drawable/rounded_box"
-            android:backgroundTint="#FF9800"
+            android:background="@drawable/untitled_1"
             android:clipToOutline="true"
             android:padding="5dp"
             android:scaleType="centerCrop"
@@ -54,9 +54,9 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintVertical_bias="0.19"
             app:shapeAppearanceOverlay="@style/roundimageview"
+            app:srcCompat="@drawable/untitled_1"
             app:strokeColor="#FF9800"
             app:strokeWidth="3dp"
-            tools:srcCompat="@tools:sample/avatars"
             tools:targetApi="s" />
 
         <LinearLayout
@@ -94,7 +94,7 @@
             android:paddingEnd="10dp"
             android:text="@string/points_placeholder"
             android:textColor="#C1C1C1"
-            android:textSize="16dp" />
+            android:textSize="16dp"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

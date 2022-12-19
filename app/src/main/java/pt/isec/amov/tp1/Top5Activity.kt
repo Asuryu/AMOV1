@@ -1,19 +1,25 @@
 package pt.isec.amov.tp1
 
 import android.annotation.SuppressLint
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.view.*
+import kotlinx.android.synthetic.main.top5_card.view.*
 import pt.isec.amov.tp1.databinding.ActivityTop5Binding
 
 class Top5Activity : AppCompatActivity() {
 
     lateinit var binding : ActivityTop5Binding
     val db = Firebase.firestore
+    val storage = FirebaseStorage.getInstance("gs://amov1-gps.appspot.com/")
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +38,18 @@ class Top5Activity : AppCompatActivity() {
 
     }
 
+    fun getPlayerAvatar(card: View, documentId: String){
+        val storageRef = storage.reference
+        val pathReference = storageRef.child("avatars/$documentId.jpg")
+        pathReference.getBytes(1024 * 1024).addOnSuccessListener {
+            card.player_avatar_top5.setImageBitmap(BitmapFactory.decodeByteArray(it, 0, it.size))
+        }.addOnFailureListener {
+            Log.d("Top5Activity", "Failed to load avatar")
+        }
+    }
+
     fun getTop5ByPoints(){
-        binding.typeTop5.text = "Points"
+        binding.typeTop5.text = getString(R.string.points)
         binding.byPointsBtn.isEnabled = false
         binding.byTimeBtn.isEnabled = true
         val linearLayout = findViewById<LinearLayout>(binding.cardWrapperTop5.id)
@@ -54,6 +70,7 @@ class Top5Activity : AppCompatActivity() {
                     count += 1
                     name.text = document.data["playerName"].toString()
                     points.text = getString(R.string.points_placeholder, document.data["playerPoints"] as Long)
+                    getPlayerAvatar(card, document.id)
                     linearLayout.addView(card)
                 }
 
@@ -64,7 +81,7 @@ class Top5Activity : AppCompatActivity() {
     }
 
     fun getTop5ByTime(){
-        binding.typeTop5.text = "Time"
+        binding.typeTop5.text = getString(R.string.time)
         binding.byPointsBtn.isEnabled = true
         binding.byTimeBtn.isEnabled = false
         val linearLayout = findViewById<LinearLayout>(binding.cardWrapperTop5.id)
@@ -87,6 +104,7 @@ class Top5Activity : AppCompatActivity() {
                     var time = document.data["playerTopTime"] as Long
                     val seconds = time / 1000
                     topTime.text = "${seconds}s"
+                    getPlayerAvatar(card, document.id)
                     linearLayout.addView(card)
                 }
 

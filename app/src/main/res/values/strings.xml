@@ -33,14 +33,25 @@
     <string name="finalPointsMp">Pontos: %1$d</string>
     <string name="pontuacao">Pontuação:</string>
     <string name="correctAnswers">%1$d/%2$d respostas acertadas</string>
-    <string name="server_mode" translatable="false">Server mode</string>
+    <string name="server_mode">Modo Servidor</string>
     <string name="credits">Créditos</string>
-    <string name="client_mode">Client mode</string>
-    <string name="ask_ip">Server IP address:</string>
-    <string name="button_connect">Connect</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="error_address">Address not recognized</string>
+    <string name="client_mode">Modo Cliente</string>
+    <string name="ask_ip">IP do Servidor:</string>
+    <string name="button_connect">Conectar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="error_address">Endereço não reconhecido</string>
     <string name="ask_name">Choose your name:</string>
-    <string name="msg_ip_address" translatable="false">Server IP address: %s\nWaiting for a client...</string>
+    <string name="msg_ip_address">IP do Servidor: %s[...]</string>
     <string name="credits_text">Aplicação desenvolvida no contexto da unidade curricular de Arquiteturas Móveis do 3º ano de Licenciatura em Engenharia Informática do Instituto Superior de Engenharia de Coimbra</string>
+    <string name="leaderboards">Top Pontuações</string>
+    <string name="partilha_o_ip_do_servidor_com_os_teus_amigos">Partilha o IP do servidor com os teus amigos</string>
+    <string name="server_ip_placeholder" translatable="false">127.0.0.1</string>
+    <string name="start_game">Começar o jogo</string>
+    <string name="connect_to_server">Ligar a um servidor</string>
+    <string name="leaderboard">Top Pontuações</string>
+    <string name="aqui_podes_encontrar_o_top_5_de_melhores_jogadores">Aqui podes encontrar o top 5 de melhores jogadores</string>
+    <string name="points">Pontos</string>
+    <string name="by_points">Pontos</string>
+    <string name="by_time">Tempo</string>
+    <string name="time">Tempo</string>
 </resources>

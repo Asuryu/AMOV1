@@ -548,7 +548,8 @@
             app:behavior_peekHeight="40dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
             app:shapeAppearanceOverlay="@style/roundimageview"
-            app:strokeColor="#FF9800">
+            app:strokeColor="#FF9800"
+            android:visibility="gone">
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="200dp"

@@ -26,6 +26,7 @@ class GameActivity : AppCompatActivity(){
 
     lateinit var binding : ActivityGameBinding
     lateinit var game : Game
+
     private var last_move_id : Int = -1
     var selectedPieces : ArrayList<Int> = ArrayList()
     var addedPiecesRound: ArrayList<TextView> = ArrayList()
@@ -51,6 +52,9 @@ class GameActivity : AppCompatActivity(){
         isMultiplayer = intent.getBooleanExtra("isMultiplayer", false)
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val mode = intent.getIntExtra("mode", 0) // 0 - multiplayer, 1 - singleplayer
+        if(mode == 0) { isMultiplayer = true }
 
         if(loadImage(this, "avatar.jpg") != null){
             val drawable = BitmapDrawable(resources, loadImage(this, "avatar.jpg"))
@@ -451,11 +455,14 @@ class GameActivity : AppCompatActivity(){
             val coordinatorLayout = findViewById<CoordinatorLayout>(R.id.coordinatorLayout)
             coordinatorLayout.visibility = View.VISIBLE
             val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            frameLayout.visibility = View.VISIBLE
             val linearLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
-
             for(i in 0 until 20){
                 addCard(linearLayout,i, 0, 0, 0) //TODO: change to real values
             }
+        } else {
+            val frameLayout = findViewById<FrameLayout>(R.id.bottom_sheet)
+            frameLayout.visibility = View.GONE
         }
     }
 
@@ -480,19 +487,19 @@ class GameActivity : AppCompatActivity(){
     }
 
     private fun onSwipeBottom() {
-        Toast.makeText(this, "Bottom Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Bottom Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeTop() {
-        Toast.makeText(this, "Top Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Top Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeLeft() {
-        Toast.makeText(this, "Left Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Left Swipe", Toast.LENGTH_LONG).show()
     }
 
     private fun onSwipeRight() {
-        Toast.makeText(this, "Right Swipe", Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, "Right Swipe", Toast.LENGTH_LONG).show()
     }
 
 

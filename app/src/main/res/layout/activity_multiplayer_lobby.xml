@@ -46,7 +46,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/adineue_regular"
-        android:text="Partilha o IP do servidor com os teus amigos"
+        android:text="@string/partilha_o_ip_do_servidor_com_os_teus_amigos"
         android:textColor="#8B8B8B"
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
@@ -123,7 +123,7 @@
                 android:foregroundGravity="center_vertical|center_horizontal"
                 android:gravity="start|center_vertical"
                 android:letterSpacing="0.05"
-                android:text="192.168.1.1"
+                android:text="@string/server_ip_placeholder"
                 android:textAlignment="viewStart"
                 android:textColor="#FFFFFF"
                 android:textSize="19sp"
@@ -147,7 +147,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/clipboard_copy"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            android:focusable="true" />
 
     </LinearLayout>
 
@@ -164,14 +165,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/sp_button2"
+        android:id="@+id/startgamelobby"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="20dp"
         android:backgroundTint="#FF9800"
-        android:text="Start Game"
+        android:text="@string/start_game"
         android:textColor="#FFFFFF"
         app:icon="@drawable/ic_videogame_asset_24"
         app:iconGravity="textStart"
@@ -189,18 +189,21 @@
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="#FF5722"
-        android:text="Connect to Server"
+        android:clickable="true"
+        android:enabled="true"
+        android:text="@string/connect_to_server"
         android:textColor="#FFFFFF"
         app:icon="@drawable/ic_videogame_asset_24"
         app:iconGravity="textStart"
         app:iconSize="30dp"
         app:iconTint="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/sp_button2"
+        app:layout_constraintBottom_toTopOf="@+id/startgamelobby"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.484"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
+        android:id="@+id/conneted_players_lobby_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
@@ -215,9 +218,10 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <LinearLayout
+            android:id="@+id/connected_players_lobby"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
