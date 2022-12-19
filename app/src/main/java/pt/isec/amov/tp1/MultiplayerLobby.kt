@@ -138,7 +138,8 @@ class MultiplayerLobby : AppCompatActivity() {
         avatar?.compress(Bitmap.CompressFormat.PNG, 100, stream)
         val byteArray = stream.toByteArray()
         val avatarBase64 = Base64.encodeToString(byteArray, Base64.DEFAULT)
-        jsonOut.put("avatar", avatarBase64)
+        // jsonOut.put("avatar", avatarBase64) // NOT WORKING
+        jsonOut.put("avatar", "")
         Log.d(TAG, "connectToServer($ip)")
         threadComm = thread {
             try {
@@ -188,9 +189,8 @@ class MultiplayerLobby : AppCompatActivity() {
                         socket = accept()
                         Log.d(TAG, "Connected to client")
                         connectedPlayers.add(socket!!)
-                        val buffer = ByteArray(4096)
-                        val bytes = socket?.getInputStream()?.read(buffer)
-                        val jsonIn = JSONObject(String(buffer, 0, bytes!!, Charsets.UTF_8))
+                        // get the player info from the client
+                        val jsonIn = JSONObject(socket!!.inputStream.bufferedReader().readText())
                         val name = jsonIn.getString("name")
                         val avatar = jsonIn.getString("avatar")
                         Log.d(TAG, "Received data from client: $name")
@@ -229,7 +229,7 @@ class MultiplayerLobby : AppCompatActivity() {
         playerPoints.visibility = View.GONE
         playerNumber.text = "#$connectedPlayers"
         playerName.text = s
-        if (avatar != "null") {
+        if (avatar != "") {
             val decodedString: ByteArray = Base64.decode(avatar, Base64.DEFAULT)
             val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
             playerAvatar.setImageBitmap(decodedByte)

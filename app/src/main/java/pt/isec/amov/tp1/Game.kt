@@ -44,7 +44,6 @@ class Game : java.io.Serializable{
         timer.start()
     }
 
-    // generate copy constructor
     constructor(game: Game, context: GameActivity, binding: ActivityGameBinding, selectedPieces: ArrayList<Int>) {
         this.board = game.board
         this.expressions = game.expressions
@@ -135,16 +134,6 @@ class Game : java.io.Serializable{
         if (generateBoard) generateBoard()
     }
 
-    // function to generate a 5x5 board
-    // the board should look like
-    // 1 x 1 x 1
-    // x . x . x
-    // 1 x 1 x 1
-    // x . x . x
-    // 1 x 1 x 1
-    // where 1 is a random number between 1 and 9
-    // and x is a random operator between +, -, *
-    // and . is a empty space " "
     fun generateBoard(){
         board.clear()
         expressions.clear()
