@@ -228,7 +228,7 @@ class MultiplayerLobby : AppCompatActivity() {
         playerPoints.visibility = View.GONE
         playerNumber.text = "#$connectedPlayers"
         playerName.text = s
-        if (avatar != "null") {
+        if (avatar != "") {
             val decodedString: ByteArray = Base64.decode(avatar, Base64.DEFAULT)
             val decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
             playerAvatar.setImageBitmap(decodedByte)
