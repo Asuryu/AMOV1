@@ -8,6 +8,8 @@ import androidx.appcompat.content.res.AppCompatResources
 import pt.isec.amov.tp1.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    var isMultiplayer : Boolean = false
     lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,11 +19,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.spButton.setOnClickListener {
             val intent = Intent(this, GameActivity::class.java)
+            intent.putExtra("isMultiplayer", isMultiplayer)
             startActivity(intent)
         }
 
         binding.mpButton.setOnClickListener {
             val intent = Intent(this, MultiplayerLobby::class.java)
+            isMultiplayer = true
+            intent.putExtra("isMultiplayer", isMultiplayer)
             startActivity(intent)
         }
 

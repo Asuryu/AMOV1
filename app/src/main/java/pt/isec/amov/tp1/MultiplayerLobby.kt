@@ -43,6 +43,7 @@ class MultiplayerLobby : AppCompatActivity() {
         private const val SERVER_PORT = 5000
     }
 
+    private val model: MultiplayerLobbyViewModel by this.viewModels()
     private var dlg: AlertDialog? = null
 
     //  @SuppressLint("ServiceCast")
