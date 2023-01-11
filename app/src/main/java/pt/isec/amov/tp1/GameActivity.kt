@@ -53,7 +53,7 @@ class GameActivity : AppCompatActivity(){
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mode = intent.getIntExtra("mode", 0) // 0 - multiplayer, 1 - singleplayer
+        val mode = intent.getIntExtra("mode", 1) // 0 - multiplayer, 1 - singleplayer
         if(mode == 0) { isMultiplayer = true }
 
         if(loadImage(this, "avatar.jpg") != null){
